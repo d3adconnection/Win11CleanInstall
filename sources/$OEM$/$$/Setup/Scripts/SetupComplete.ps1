@@ -1,5 +1,5 @@
 function Show-Notification {
-    [cmdletbinding()]
+	[cmdletbinding()]
     Param (
         [string]
         $ToastTitle,
