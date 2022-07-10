@@ -1,5 +1,5 @@
 function Show-Notification {
-	[cmdletbinding()]
+    [cmdletbinding()]
     Param (
         [string]
         $ToastTitle,
@@ -54,8 +54,26 @@ namespace Win32{
 add-type $code
 [Win32.Wallpaper]::SetWallpaper($imgPath)
 
+# fsutil tweaks from https://github.com/r33int/Windows10-Postinstall
+fsutil behavior set memoryusage 2
+fsutil behavior set disablelastaccess 1
+fsutil behavior set mftzone 2
+$DriveLetters = (Get-WmiObject -Class Win32_Volume).DriveLetter
+ForEach ($Drive in $DriveLetters){
+    If (-not ([string]::IsNullOrEmpty($Drive))){
+        Write-Host Optimizing "$Drive" Drive
+        fsutil resource setavailable "$Drive":\
+        fsutil resource setlog shrink 10 "$Drive":\
+    }
+}
+
+# Enable Ultimate Performance power plan from https://github.com/r33int/Windows10-Postinstall
+powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61
+
+# Clean apps
 $Apps = @(
 	"MicrosoftTeams",
+	"Clipchamp.Clipchamp",
 	"Microsoft.3DBuilder",
 	"Microsoft.549981C3F5F10",
 	"Microsoft.BingNews",
@@ -70,12 +88,13 @@ $Apps = @(
 	"Microsoft.XboxApp",
 	"Microsoft.MicrosoftOfficeHub",
 	"Microsoft.MicrosoftSolitaireCollection",
+	"Microsoft.PowerAutomateDesktop",
 	"Microsoft.Office.OneNote",
 	"Microsoft.OneConnect",
 	"Microsoft.SkypeApp",
 	"Microsoft.Microsoft3DViewer",
 	"Microsoft.Paint3D",
-	"Microsoft.Windows.Photos",
+	# "Microsoft.Windows.Photos",
 	"Microsoft.MSPaint",
 	"Microsoft.Wallet",
 	"Microsoft.Print3D",
@@ -124,6 +143,8 @@ Register-ScheduledTask -Action $action -Trigger $trigger -TaskName $taskname -De
 Show-Notification -ToastTitle "Windows is ready to use!" -ToastText "You can now use your computer normally. Enjoy!"
 
 Start-Sleep 10
+
+# Run Store updates
 $update = Get-WmiObject -Namespace root\cimv2\mdm\dmmap -Class MDM_EnterpriseModernAppManagement_AppManagement01
 $update.UpdateScanMethod()
 Start-Sleep 10

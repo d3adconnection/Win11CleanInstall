@@ -29,7 +29,7 @@ REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\OOBE" /v DisableVoice /d
 REM Disable Automatic Restart Sign On
 REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableAutomaticRestartSignOn /d 1 /t REG_DWORD /f
 
-REM Show Ribbon as default
+REM Show Ribbon as default (W10)
 REG ADD "HKLM\Software\Policies\Microsoft\Windows\Explorer" /v ExplorerRibbonStartsMinimized /d 4 /t REG_DWORD /f
 
 REM Allow non-admins to install printer drivers
@@ -45,6 +45,9 @@ REM Disable auto network device discovery
 REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\NcdAutoSetup\Private" /v AutoSetup /d 0 /t REG_DWORD /f
 REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\NcdAutoSetup\Public" /v AutoSetup /d 0 /t REG_DWORD /f
 REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\NcdAutoSetup\Domain" /v AutoSetup /d 0 /t REG_DWORD /f
+
+REM Disable installing Chat and Teams (W11)
+REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Communications" /v ConfigureChatAutoInstall /d 0 /t REG_DWORD /f
 
 REM Show color on title bars
 REG ADD "HKCU\Software\Microsoft\Windows\DWM" /v ColorPrevalence /d 1 /t REG_DWORD /f
@@ -80,6 +83,9 @@ REG ADD "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Se
 
 REM Show all file extensions by default
 REG ADD "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /d 0 /t REG_DWORD /f
+
+REM Show more pins by default (W11)
+REG ADD "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_Layout /d 1 /t REG_DWORD /f
 
 REM Disable App Startup Delay
 REG ADD "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize" /v StartupDelayInMSec /d 0 /t REG_DWORD /f
@@ -159,6 +165,9 @@ REG ADD "HKU\CurrentUsersDefault\Software\Microsoft\Windows\CurrentVersion\Explo
 
 REM Show all file extensions by default
 REG ADD "HKU\CurrentUsersDefault\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /d 0 /t REG_DWORD /f
+
+REM Show more pins by default (W11)
+REG ADD "HKU\CurrentUsersDefault\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_Layout /d 1 /t REG_DWORD /f
 
 REM Disable App Startup Delay
 REG ADD "HKU\CurrentUsersDefault\Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize" /v StartupDelayInMSec /d 0 /t REG_DWORD /f
