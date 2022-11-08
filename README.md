@@ -1,6 +1,8 @@
 # Windows 11 Clean Install
 Scripts to streamline, optimize and automatically cleanup Windows 11 upon install.
-Automatically bypasses hardware checks, optimizes the NTFS file system on your drives, removes most of the bloat, and more.
+
+Automatically bypasses hardware checks, optimizes the NTFS file system on your drives, removes most of the bloat, and adjusts a few QoL registry tweaks.
+
 Designed to be as vanilla as possible, with no visibility or interaction, and extremely compatible with updates.
 
 How to use:

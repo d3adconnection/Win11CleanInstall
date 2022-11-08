@@ -192,4 +192,4 @@ REG UNLOAD HKLM\DefaultUser
 #################################
 #################################
 
-Remove-Item $MyInvocation.MyCommand.Source
+Remove-Item $MyInvocation.MyCommand.Source -Force
