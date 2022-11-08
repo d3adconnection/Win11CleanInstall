@@ -192,4 +192,4 @@ REG UNLOAD HKLM\DefaultUser
 #################################
 #################################
 
-cmd /c start /min cmd /c del /f /q C:\Windows\Setup\Scripts\specialize.ps1 & del /f /q C:\Windows\Setup\Scripts\specialize.ps1
+Remove-Item $MyInvocation.MyCommand.Source
