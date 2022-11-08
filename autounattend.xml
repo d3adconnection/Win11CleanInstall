@@ -1,64 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <unattend xmlns="urn:schemas-microsoft-com:unattend">
-	<settings pass="oobeSystem">
-		<component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<InputLocale>007f:00000409</InputLocale>
-			<SystemLocale>en-US</SystemLocale>
-			<UILanguage>en-US</UILanguage>
-			<UILanguageFallback>en-US</UILanguageFallback>
-			<UserLocale>en-US</UserLocale>
+	<settings pass="windowsPE">
+		<component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<UserData>
+				<ProductKey>
+					<Key>AAAAA-VVVVV-EEEEE-YYYYY-OOOOO</Key>
+					<WillShowUI>OnError</WillShowUI>
+				</ProductKey>
+			</UserData>
+			<ComplianceCheck>
+				<DisplayReport>Never</DisplayReport>
+			</ComplianceCheck>
+			<Diagnostics>
+				<OptIn>false</OptIn>
+			</Diagnostics>
+			<DynamicUpdate>
+				<Enable>false</Enable>
+				<WillShowUI>Never</WillShowUI>
+			</DynamicUpdate>
+			<EnableNetwork>false</EnableNetwork>
+			<RunSynchronous>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>1</Order>
+					<Path>cmd /c powercfg /s 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>2</Order>
+					<Path>cmd /c for %s in (sTPM sSecureBoot sRAM sStorage sCPU) do reg add HKLM\SYSTEM\Setup\LabConfig /v Bypas%sCheck /d 1 /t reg_dword /f</Path>
+				</RunSynchronousCommand>
+			</RunSynchronous>
 		</component>
+	</settings>
+	<settings pass="specialize">
+		<component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" language="neutral" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" publicKeyToken="31bf3856ad364e35" versionScope="nonSxS">
+		<RunSynchronous>
+			<RunSynchronousCommand wcm:action="add">
+				<Order>1</Order>
+				<Path>C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ex bypass -nol -noni -nop -w hidden -f C:\Windows\Setup\Scripts\specialize.ps1</Path>
+			</RunSynchronousCommand>
+		</RunSynchronous>
+		</component>
+	</settings>
+	<settings pass="oobeSystem">
 		<component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<TimeZone>Central Standard Time</TimeZone>
 			<ConfigureChatAutoInstall>false</ConfigureChatAutoInstall>
 			<OOBE>
 				<HideEULAPage>true</HideEULAPage>
+				<HideLocalAccountScreen>false</HideLocalAccountScreen>
 				<HideOnlineAccountScreens>true</HideOnlineAccountScreens>
 				<HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
-				<NetworkLocation>Home</NetworkLocation>
 			</OOBE>
-			<FirstLogonCommands>
-				<SynchronousCommand>
-					<CommandLine>cmd /c start /min /abovenormal %WINDIR%\Setup\Scripts\SetupComplete.cmd</CommandLine>
-					<Description>Run SetupComplete Script</Description>
+			<LogonCommands>
+				<AsynchronousCommand wcm:action="add">
 					<Order>1</Order>
-					<RequiresUserInput>False</RequiresUserInput>
-				</SynchronousCommand>
-			</FirstLogonCommands>
-		</component>
-	</settings>
-	<settings pass="windowsPE">
-		<component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-			<DynamicUpdate>
-				<WillShowUI>OnError</WillShowUI>
-			</DynamicUpdate>
-			<UserData>
-				<ProductKey>
-					<Key></Key>
-				</ProductKey>
-			</UserData>
-			<RunSynchronous>
-				<RunSynchronousCommand>
-					<Order>1</Order>
-					<!-- This sets the power scheme to high performance in WinPE for faster imaging -->
-					<Path>cmd /c powercfg.exe /s 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c</Path>
-				</RunSynchronousCommand>
-				<RunSynchronousCommand>
-					<Order>2</Order>
-					<!-- This sets a bypass for TPM 2.0 check -->
-					<Path>cmd /c reg add "HKLM\SYSTEM\Setup\LabConfig" /f /v BypassTPMCheck /t REG_DWORD /d 1</Path>
-				</RunSynchronousCommand>
-				<RunSynchronousCommand>
-					<Order>3</Order>
-					<!-- This sets a bypass for 4 GB RAM check -->
-					<Path>cmd /c reg add "HKLM\SYSTEM\Setup\LabConfig" /f /v BypassRAMCheck /t REG_DWORD /d 1</Path>
-				</RunSynchronousCommand>
-				<RunSynchronousCommand>
-					<Order>4</Order>
-					<!-- This sets a bypass for Secure Boot check -->
-					<Path>cmd /c reg add "HKLM\SYSTEM\Setup\LabConfig" /f /v BypassSecureBootCheck /t REG_DWORD /d 1</Path>
-				</RunSynchronousCommand>			
-			</RunSynchronous>
+					<CommandLine>cmd /c start /min /abovenormal powershell -c "Start-Process -FilePath 'C:\Windows\Resources\Themes\dark.theme'; ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq 'Microsoft Store'}).Verbs() | ?{$_.Name.replace('&','') -match 'Unpin from taskbar'} | %{$_.DoIt(); $exec = $true}; Remove-Item -Path ($Env:Userprofile + '\Desktop\Microsoft Edge.lnk'); Stop-Process -Name "SystemSettings"; Get-AppxPackage 'MicrosoftTeams' | Remove-AppxPackage"</CommandLine>
+				</AsynchronousCommand>
+			</LogonCommands>
 		</component>
 	</settings>
 </unattend>
