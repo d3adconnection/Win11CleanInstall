@@ -1,8 +1,13 @@
-## ######################## ##############
-# # WINDOWS 11 CLEAN INSTALL #############
- ############################ ############
-######## maintained by d3ad connection ###
+## ## #################### ## ## ##########
+# # WINDOWS 11 CLEAN INSTALL # # #########
+###########################################
+ ####### packaged by d3ad connection #####
 
+## Recommended for use with Windows 11 Pro/Enterprise
+
+###########################################
+ # # # NTFS OPTIMIZATION # # # ###########
+###########################################
 # NTFS optimization (fsutil tweaks from https://github.com/r33int/Windows10-Postinstall)
 $DriveLetters = (Get-WmiObject -Class Win32_Volume).DriveLetter
 ForEach ($Drive in $DriveLetters) {
@@ -18,10 +23,13 @@ fsutil behavior set disablelastaccess 1
 fsutil behavior set mftzone 2
 fsutil behavior set disable8dot3 1
 fsutil 8dot3name set 1
+###########################################
 
-#################################
-### APP CLEANUP #################
-#################################
+###########################################
+ # # # APP CLEANUP # # # #################
+###########################################
+
+# Comment out anything you do not want automatically removed.
 
 $AppsToRemove = @(
 	"MicrosoftTeams",
@@ -72,28 +80,45 @@ ForEach ($App in $AppsToRemove) {
 	}
 }
 
-#################################
-### SCHEDULED TASKS #############
-#################################
+###########################################
+ # # # SCHEDULED TASKS # # # #############
+###########################################
 
 # Create scheduled task to auto-check Store updates
 $taskname = "Check for Store app updates"
 $taskdescription = "Automatically checks for Store app updates after a user logs on."
 $action = New-ScheduledTaskAction -Execute 'powershell.exe' `
-  -Argument '-noni -nop -w hidden -c "& { Start-Sleep 10; $update = Get-WmiObject -Namespace root\cimv2\mdm\dmmap -Class MDM_EnterpriseModernAppManagement_AppManagement01; $update.UpdateScanMethod() }"'
+  -Argument '-noni -nop -w hidden -c "& { Start-Sleep 10; Get-CimInstance -Namespace Root\cimv2\mdm\dmmap -ClassName MDM_EnterpriseModernAppManagement_AppManagement01 | Invoke-CimMethod -MethodName UpdateScanMethod }"'
 $trigger =  New-ScheduledTaskTrigger -AtLogon
 $settings = New-ScheduledTaskSettingsSet -ExecutionTimeLimit (New-TimeSpan -Minutes 2) -RestartCount 3 -RestartInterval (New-TimeSpan -Minutes 1)
 Register-ScheduledTask -Action $action -Trigger $trigger -TaskName $taskname -Description $taskdescription -Settings $settings -User "System"
+###########################################
 
-#################################
-### REGISTRY TWEAKS #############
-#################################
+
+###########################################
+ # # # REGISTRY & POLICY TWEAKS # # # ####
+###########################################
 
 # Offline local account via OOBE\BYPASSNRO (found on MyDigitalLife credit to AveYo)
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /f /v BypassNRO /d 1 /t REG_DWORD
 
-# Mount Default User Account
+## Mount Default User Account
+###########################################
 REG LOAD HKLM\DefaultUser C:\Users\Default\NTUSER.DAT
+
+
+## Windows UI/Explorer Customizations
+###########################################
+
+# Disable login screen blur
+REG ADD "HKLM\Software\Policies\Microsoft\Windows\System" /v DisableAcrylicBackgroundOnLogon /d 1 /t REG_DWORD /f
+
+# Disable first logon animation screen
+REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableFirstLogonAnimation /d 0 /t REG_DWORD /f
+REG ADD "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v EnableFirstLogonAnimation /d 0 /t REG_DWORD /f
+
+# Launch Explorer windows in separate processes
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v SeparateProcess /d 1 /t REG_DWORD /f
 
 # Show color on title bars
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\DWM" /v ColorPrevalence /d 1 /t REG_DWORD /f
@@ -104,27 +129,67 @@ REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Themes\Perso
 # Remove People from taskbar
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v PeopleBand /d 0 /t REG_DWORD /f
  
-# Remove search from taskbar
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Search" /v SearchboxTaskbarMode /d 0 /t REG_DWORD /f
+# Remove Copilot from taskbar
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v ShowCopilotButton /d 0 /t REG_DWORD /f
  
+# Remove search from taskbar + other settings
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Search" /v SearchboxTaskbarMode /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Search" /v BingSearchEnabled /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Windows\Explorer" /v DisableSearchBoxSuggestions  /d 1 /t REG_DWORD /f
+REG ADD "HKLM\Software\Policies\Microsoft\Windows\Windows Search" /v SearchOnTaskbarMode /d 0 /t REG_DWORD /f
+REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\SearchSettings" /v IsDynamicSearchBoxEnabled /d 0 /t REG_DWORD /f
+REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Feeds\DSB" /v OpenOnHover /d 0 /t REG_DWORD /f
+
 # Remove weather/news from taskbar
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Feeds" /v ShellFeedsTaskbarViewMode /d 2 /t REG_DWORD /f
 
-# Remove Widgets from taskbar
+# Remove Widgets
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarDa /d 0 /t REG_DWORD /f
+REG ADD "HKLM\SOFTWARE\Microsoft\PolicyManager\default\NewsAndInterests\AllowNewsAndInterests" /v value /t REG_DWORD /d 0 /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Dsh" /v AllowNewsAndInterests /t REG_DWORD /d 0 /f
 
 # Remove Chat from taskbar
+REG ADD "HKLM\Software\Policies\Microsoft\Windows\Windows Chat" /v ChatIcon /d 2 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarMn /d 0 /t REG_DWORD /f
 
-# Hide Edge first run experience
+# File Explorer default to This PC
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo /d 1 /t REG_DWORD /f
+
+# Show more pins on Start
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_Layout /d 1 /t REG_DWORD /f
+###########################################
+
+
+## Microsoft Edge Customizations
+###########################################
+
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Edge" /v HideFirstRunExperience /d 1 /t REG_DWORD /f
+REG ADD "HKLM\Software\Policies\Microsoft\MicrosoftEdge\Main" /v PreventFirstRunPage /d 1 /t REG_DWORD /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v HideFirstRunExperience /d 1 /t REG_DWORD /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v HideFirstRunExperience /t REG_DWORD /d 1 /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v HubsSidebarEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v SpotlightExperiencesAndRecommendationsEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v ShowAcrobatSubscriptionButton /t REG_DWORD /d 0 /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v NewTabPageContentEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v NewTabPageHideDefaultTopSites /t REG_DWORD /d 1 /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v NewTabPageQuickLinksEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v ShowPDFDefaultRecommendationsEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v DefaultBrowserSettingsCampaignEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v ShowRecommendationsEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v StartupBoostEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v ShowDownloadsToolbarButton /t REG_DWORD /d 1 /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v PinBrowserEssentialsToolbarButton /t REG_DWORD /d 0 /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v EdgeShoppingAssistantEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v WalletDonationEnabled /t REG_DWORD /d 0 /f
+###########################################
+
+
+## Backend Customizations
+###########################################
 
 # Disable thumbnail cache
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v DisableThumbnailCache /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v DisableThumbsDBOnNetworkFolders /d 1 /t REG_DWORD /f
-
-# File Explorer default to This PC
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo /d 1 /t REG_DWORD /f
 
 # File Explorer windows run in separate processes
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v SeparateProcess /d 1 /t REG_DWORD /f
@@ -132,21 +197,28 @@ REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Adv
 # Show all file extensions by default
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /d 0 /t REG_DWORD /f
 
-# Disable App Startup Delay
+# Reduce App Startup Delay
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize" /v StartupDelayInMSec /d 0 /t REG_DWORD /f
+
+# Reduce App Shutdown Delay
+REG ADD "HKLM\DefaultUser\Control Panel\Desktop" /v HungAppTimeout /d "1000" /t REG_SZ /f
+
+# Dark mode registry keys (they don't work)
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v AppsUseLightTheme /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v SystemUsesLightTheme /d 0 /t REG_DWORD /f
 
 # Small icon view in Control Panel
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v StartupPage /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v AllItemsIconView /d 1 /t REG_DWORD /f
 
-# Disable privacy settings pop up after upgrade
+# Disable pop ups after updates
 REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Windows\OOBE" /v DisablePrivacyExperience /d 1 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SubscribedContent-310093Enabled /d 0 /t REG_DWORD /f
 
-# Disable start menu suggestions
+# Disable tips and suggestions
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SystemPaneSuggestionsEnabled /d 0 /t REG_DWORD /f
-
-# Disable Tips
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SoftLandingEnabled /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SubscribedContent-338389Enabled /d 0 /t REG_DWORD /f
 
 # Disable System requirements not met message in Settings
 REG ADD "HKLM\DefaultUser\Control Panel\UnsupportedHardwareNotificationCache" /v SV1 /t REG_DWORD /d 0 /f
@@ -163,10 +235,18 @@ REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\UserProfileE
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.SecurityAndMaintenance" /v Enabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows Security Health\State" /v AccountProtection_MicrosoftAccount_Disconnected /d 0 /t REG_DWORD /f
 
-# Show more pins on Start
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_Layout /d 1 /t REG_DWORD /f
+# Diagnostic data settings
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Input\TIPC" /v Enabled /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Privacy" /v TailoredExperiencesWithDiagnosticDataEnabled /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Windows\CloudContent" /v DisableTailoredExperiencesWithDiagnosticData /d 1 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack" /v ShowedToastAtLevel /d 1 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Siuf\Rules" /v NumberOfSIUFInPeriod /d 0 /t REG_DWORD /f
+###########################################
 
-# Office customizations
+
+## Office customizations
+###########################################
+
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Common" /v qmenable /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Common" /v TurnOffPhotograph /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Common" /v PrivacyNoticeShown /d 2 /t REG_DWORD /f
@@ -185,11 +265,22 @@ REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Office\16.0\Outlook\Setup"
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Common\Privacy\SettingsStore\Anonymous" /v ConnectedExperiencesNoticeVersion /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Common\Privacy\SettingsStore\Anonymous" /v RequiredDiagnosticDataNoticeVersion /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Common\Privacy\SettingsStore\Anonymous" /v OptionalDiagnosticDataConsentVersion /d 1 /t REG_DWORD /f
+###########################################
 
-# Unmount Default User Account
+
+## Unmount Default User Account
+###########################################
 REG UNLOAD HKLM\DefaultUser
 
-#################################
-#################################
+
+###########################################
+ # # # FINAL RUN # # # ###################
+###########################################
+
+# Optimize all volumes
+defrag /allvolumes /o
+
+
+###########################################
 
 Remove-Item $MyInvocation.MyCommand.Source -Force
