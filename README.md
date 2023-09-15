@@ -12,6 +12,6 @@ Designed to be as vanilla as possible, with no visibility or interaction, and ex
  2. Download this repo and place everything into the root of the Windows 11 install media
  3. Install Windows 11 with a fresh install from boot (upgrading/refreshing will probably not work)
 
-To disable automatically setting Dark theme on login, delete the "Roaming" folder under "sources\$OEM$\$1\Users\Default\AppData". _Do not delete "Local"!_
+To disable automatically setting Dark theme on login, delete the "Roaming" folder under "sources\\$OEM$\\$1\\Users\\Default\\AppData". _Do not delete "Local"!_
 
-To see what the script changes, open "sources\$OEM$\$$\Setup\Scripts\specialize.ps1" in a text editor.
+To see what the script changes, open "sources\\$OEM$\\$$\\Setup\\Scripts\\specialize.ps1" in a text editor.
