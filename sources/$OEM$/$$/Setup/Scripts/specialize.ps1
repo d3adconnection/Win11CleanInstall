@@ -199,7 +199,6 @@ REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Adv
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Edge" /v HideFirstRunExperience /d 1 /t REG_DWORD /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\MicrosoftEdge\Main" /v PreventFirstRunPage /d 1 /t REG_DWORD /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\EdgeUpdate" /v CreateDesktopShortcutDefault /d 0 /t REG_DWORD /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v HideFirstRunExperience /d 1 /t REG_DWORD /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v HideFirstRunExperience /t REG_DWORD /d 1 /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v HubsSidebarEnabled /t REG_DWORD /d 0 /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v SpotlightExperiencesAndRecommendationsEnabled /t REG_DWORD /d 0 /f
@@ -218,8 +217,8 @@ REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v UploadFromPhoneEnabled /t REG
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v UrlDiagnosticDataEnabled /t REG_DWORD /d 0 /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v DiagnosticData /t REG_DWORD /d 0 /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v TabServicesEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v ShowDownloadsToolbarButton /t REG_DWORD /d 1 /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v StartupBoostEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v ShowDownloadsToolbarButton /t REG_DWORD /d 1 /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v QuickSearchShowMiniMenu /t REG_DWORD /d 0 /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v VisualSearchEnabled /t REG_DWORD /d 0 /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v PinBrowserEssentialsToolbarButton /t REG_DWORD /d 0 /f
