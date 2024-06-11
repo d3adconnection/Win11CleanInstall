@@ -101,7 +101,7 @@ Register-ScheduledTask -Action $action -Trigger $trigger -TaskName $taskname -De
 ###########################################
 
 # Force offline local account
-REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /f /v BypassNRO /d 1 /t REG_DWORD
+REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\OOBE" /f /v BypassNRO /d 1 /t REG_DWORD
 
 ## Mount Default User Account
 ###########################################
@@ -197,33 +197,33 @@ REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Adv
 ###########################################
 
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Edge" /v HideFirstRunExperience /d 1 /t REG_DWORD /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\MicrosoftEdge\Main" /v PreventFirstRunPage /d 1 /t REG_DWORD /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\EdgeUpdate" /v CreateDesktopShortcutDefault /d 0 /t REG_DWORD /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v HideFirstRunExperience /t REG_DWORD /d 1 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v HubsSidebarEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v SpotlightExperiencesAndRecommendationsEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v ShowAcrobatSubscriptionButton /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v NewTabPageContentEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v NewTabPageHideDefaultTopSites /t REG_DWORD /d 1 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v NewTabPageQuickLinksEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v ShowPDFDefaultRecommendationsEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v DefaultBrowserSettingsCampaignEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v ShowRecommendationsEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v PersonalizationReportingEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v TextPredictionEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v ComposeInlineEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v SearchInSidebarEnabled /t REG_DWORD /d 2 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v UploadFromPhoneEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v UrlDiagnosticDataEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v DiagnosticData /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v TabServicesEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v ShowDownloadsToolbarButton /t REG_DWORD /d 1 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v StartupBoostEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v QuickSearchShowMiniMenu /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v VisualSearchEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v PinBrowserEssentialsToolbarButton /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v EdgeShoppingAssistantEnabled /t REG_DWORD /d 0 /f
-REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v WalletDonationEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\MicrosoftEdge\Main" /v PreventFirstRunPage /d 1 /t REG_DWORD /f
+REG ADD "HKLM\Software\Policies\Microsoft\EdgeUpdate" /v CreateDesktopShortcutDefault /d 0 /t REG_DWORD /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v HideFirstRunExperience /t REG_DWORD /d 1 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v HubsSidebarEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v SpotlightExperiencesAndRecommendationsEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v ShowAcrobatSubscriptionButton /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v NewTabPageContentEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v NewTabPageHideDefaultTopSites /t REG_DWORD /d 1 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v NewTabPageQuickLinksEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v ShowPDFDefaultRecommendationsEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v DefaultBrowserSettingsCampaignEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v ShowRecommendationsEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v PersonalizationReportingEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v TextPredictionEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v ComposeInlineEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v SearchInSidebarEnabled /t REG_DWORD /d 2 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v UploadFromPhoneEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v UrlDiagnosticDataEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v DiagnosticData /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v TabServicesEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge" /v ShowDownloadsToolbarButton /t REG_DWORD /d 1 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge\Recommended" /v StartupBoostEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge\Recommended" /v QuickSearchShowMiniMenu /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge\Recommended" /v VisualSearchEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge\Recommended" /v PinBrowserEssentialsToolbarButton /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge\Recommended" /v EdgeShoppingAssistantEnabled /t REG_DWORD /d 0 /f
+REG ADD "HKLM\Software\Policies\Microsoft\Edge\Recommended" /v WalletDonationEnabled /t REG_DWORD /d 0 /f
 ###########################################
 
 
@@ -245,9 +245,8 @@ REG ADD "HKLM\DefaultUser\Control Panel\Desktop" /v HungAppTimeout /d "1000" /t 
 # Disable auto-installed Store apps
 REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Communications" /v ConfigureChatAutoInstall /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SilentInstalledAppsEnabled /d 0 /t REG_DWORD /f
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SubscribedContent-310093Enabled /d 0 /t REG_DWORD /f
-REG DELETE "HKLM\SOFTWARE\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\DevHomeUpdate" /f
-REG DELETE "HKLM\SOFTWARE\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\OutlookUpdate" /f
+REG DELETE "HKLM\Software\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\DevHomeUpdate" /f
+REG DELETE "HKLM\Software\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\OutlookUpdate" /f
 
 # Disable account nags on Start menu & settings
 REG ADD "HKLM\DefaultUser\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_AccountNotifications /d 0 /t REG_DWORD /f
