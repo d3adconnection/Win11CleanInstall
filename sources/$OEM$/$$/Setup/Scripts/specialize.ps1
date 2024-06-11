@@ -229,6 +229,8 @@ REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Edge\Recommended" /v WalletDonationEna
 
 ## Backend Customizations
 ###########################################
+# Disable background profile sign in on restart (not to be confused with Autologon)
+REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableAutomaticRestartSignOn /d 1 /t REG_DWORD /f
 
 # Disable thumbnail cache
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v DisableThumbnailCache /d 1 /t REG_DWORD /f
@@ -240,17 +242,25 @@ REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Ser
 # Reduce app forced shutdown delay
 REG ADD "HKLM\DefaultUser\Control Panel\Desktop" /v HungAppTimeout /d "1000" /t REG_SZ /f
 
-# Disable pop ups and auto-installed Store apps after updates
-REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Windows\OOBE" /v DisablePrivacyExperience /d 1 /t REG_DWORD /f
+# Disable auto-installed Store apps
+REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Communications" /v ConfigureChatAutoInstall /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SilentInstalledAppsEnabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SubscribedContent-310093Enabled /d 0 /t REG_DWORD /f
 
-# Disable Microsoft account nags on Start menu
+# Disable account nags on Start menu & settings
+REG ADD "HKLM\DefaultUser\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_AccountNotifications /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Microsoft\Windows\CurrentVersion\SystemSettings\AccountNotifications" /v DisableAccountNotifications /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Policies\Microsoft\Windows\CurrentVersion\AccountNotifications" /v DisableAccountNotifications /d 1 /t REG_DWORD /f
 
+# Disable new app installed association notifications
+REG ADD "HKLM\Software\Policies\Microsoft\Windows\Explorer" /v NoNewAppAlert /d 1 /t REG_DWORD /f
+
 # Disable tips and suggestions
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_IrisRecommendations /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v ShowSyncProviderNotifications /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SystemPaneSuggestionsEnabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SoftLandingEnabled /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SubscribedContent-310093Enabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SubscribedContent-338388Enabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SubscribedContent-338389Enabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SubscribedContent-338393Enabled /d 0 /t REG_DWORD /f
@@ -272,10 +282,14 @@ REG ADD "HKLM\DefaultUser\Control Panel\UnsupportedHardwareNotificationCache" /v
 
 # Disable full screen pop ups on login (Get Even More Out of Windows) (deprecated?)
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement" /v ScoobeSystemSettingEnabled /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Windows\OOBE" /v DisablePrivacyExperience /d 1 /t REG_DWORD /f
 
 # Disable unneeded security and maintenance notifications
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.SecurityAndMaintenance" /v Enabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows Security Health\State" /v AccountProtection_MicrosoftAccount_Disconnected /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.SecurityAndMaintenance" /v Enabled /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.Suggested" /v Enabled /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.BackupReminder" /v Enabled /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.CapabilityAccess" /v Enabled /d 0 /t REG_DWORD /f
 
 # Disable compression on wallpapers
 REG ADD "HKLM\DefaultUser\Control Panel\Desktop" /v JPEGImportQuality /t REG_DWORD /d 0x00000064 /f
@@ -287,10 +301,16 @@ REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows Defender Security Center\Vi
 
 # Diagnostic data settings
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Input\TIPC" /v Enabled /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" /v Enabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Privacy" /v TailoredExperiencesWithDiagnosticDataEnabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Windows\CloudContent" /v DisableTailoredExperiencesWithDiagnosticData /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack" /v ShowedToastAtLevel /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Siuf\Rules" /v NumberOfSIUFInPeriod /d 0 /t REG_DWORD /f
+
+# Force disable Windows Recall (not typically available on x86 PCs)
+REG ADD "HKLM\Software\Policies\Microsoft\Windows\WindowsAI" /v DisableAIDataAnalysis /d 1 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Windows\WindowsAI" /v DisableAIDataAnalysis /d 1 /t REG_DWORD /f
+
 ###########################################
 
 
