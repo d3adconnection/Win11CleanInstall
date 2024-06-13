@@ -126,22 +126,23 @@ REG ADD "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v EnableFi
 # Show more pins on Start
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_Layout /d 1 /t REG_DWORD /f
 
-# Remove People from taskbar (deprecated?)
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v PeopleBand /d 0 /t REG_DWORD /f
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v CapacityOfPeopleBar /d 0 /t REG_DWORD /f
- 
-# Remove Copilot from taskbar
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v ShowCopilotButton /d 0 /t REG_DWORD /f
- 
-# Remove search from taskbar + other settings
+# Hide Recommended on Start (only works on Education and Enterprise)
+REG ADD "HKLM\Software\Policies\Microsoft\Windows\Explorer" /v HideRecommendedSection /d 1 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Windows\Explorer" /v HideRecommendedSection /d 1 /t REG_DWORD /f
+
+# Remove search from taskbar + make search local-only
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Search" /v SearchboxTaskbarMode /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Search" /v BingSearchEnabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Windows\Explorer" /v DisableSearchBoxSuggestions  /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Feeds\DSB" /v ShowDynamicContent /d 0 /t REG_DWORD /f
 REG ADD "HKLM\Software\Policies\Microsoft\Windows\Windows Search" /v SearchOnTaskbarMode /d 0 /t REG_DWORD /f
+REG ADD "HKLM\Software\Policies\Microsoft\Windows\Windows Search" /v EnableDynamicContentInWSB /d 0 /t REG_DWORD /f
 REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\SearchSettings" /v IsDynamicSearchBoxEnabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Feeds\DSB" /v OpenOnHover /d 0 /t REG_DWORD /f
 REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Feeds\DSB" /v ShowDynamicContent /d 0 /t REG_DWORD /f
+
+# Remove Copilot from taskbar
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v ShowCopilotButton /d 0 /t REG_DWORD /f
 
 # Remove weather/news from taskbar
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Feeds" /v ShellFeedsTaskbarViewMode /d 2 /t REG_DWORD /f
@@ -154,6 +155,10 @@ REG ADD "HKLM\Software\Policies\Microsoft\Dsh" /v AllowNewsAndInterests /t REG_D
 # Remove Chat from taskbar
 REG ADD "HKLM\Software\Policies\Microsoft\Windows\Windows Chat" /v ChatIcon /d 2 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarMn /d 0 /t REG_DWORD /f
+
+# Remove People from taskbar (deprecated?)
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v PeopleBand /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v CapacityOfPeopleBar /d 0 /t REG_DWORD /f
 ###########################################
 
 
@@ -236,13 +241,16 @@ REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v Disa
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v DisableThumbnailCache /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v DisableThumbsDBOnNetworkFolders /d 1 /t REG_DWORD /f
 
-# Reduce app startup delay
+# Disable compression on wallpapers
+REG ADD "HKLM\DefaultUser\Control Panel\Desktop" /v JPEGImportQuality /t REG_DWORD /d 0x00000064 /f
+
+# Reduce delay for startup apps
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize" /v StartupDelayInMSec /d 0 /t REG_DWORD /f
 
 # Reduce app forced shutdown delay
 REG ADD "HKLM\DefaultUser\Control Panel\Desktop" /v HungAppTimeout /d "1000" /t REG_SZ /f
 
-# Disable auto-installed Store apps
+# Disable auto-installing Store apps
 REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Communications" /v ConfigureChatAutoInstall /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SilentInstalledAppsEnabled /d 0 /t REG_DWORD /f
 REG DELETE "HKLM\Software\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\DevHomeUpdate" /f
@@ -281,7 +289,7 @@ REG ADD "HKLM\DefaultUser\Control Panel\UnsupportedHardwareNotificationCache" /v
 REG ADD "HKLM\DefaultUser\Control Panel\UnsupportedHardwareNotificationCache" /v SV2 /t REG_DWORD /d 0 /f
 REG ADD "HKLM\DefaultUser\Control Panel\UnsupportedHardwareNotificationCache" /v SV3 /t REG_DWORD /d 0 /f
 
-# Disable full screen pop ups on login (Get Even More Out of Windows) (deprecated?)
+# Disable full screen pop ups on login
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement" /v ScoobeSystemSettingEnabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Windows\OOBE" /v DisablePrivacyExperience /d 1 /t REG_DWORD /f
 
@@ -291,9 +299,6 @@ REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Notification
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.Suggested" /v Enabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.BackupReminder" /v Enabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.CapabilityAccess" /v Enabled /d 0 /t REG_DWORD /f
-
-# Disable compression on wallpapers
-REG ADD "HKLM\DefaultUser\Control Panel\Desktop" /v JPEGImportQuality /t REG_DWORD /d 0x00000064 /f
 
 # Hide Defender summary & enhanced notifications
 REG ADD "HKLM\Software\Policies\Microsoft\Windows Defender\Reporting" /v DisableEnhancedNotifications /t REG_DWORD /d 1 /f
