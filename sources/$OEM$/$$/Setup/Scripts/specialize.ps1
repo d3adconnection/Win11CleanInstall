@@ -186,6 +186,15 @@ REG ADD "HKLM\DefaultUser\Control Panel\Accessibility" /v DynamicScrollbars /d 0
 # File Explorer default to This PC
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo /d 1 /t REG_DWORD /f
 
+# Remove Gallery from navigation pane
+REG ADD "HKLM\DefaultUser\Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /v System.IsPinnedToNameSpaceTree /d 0 /t REG_DWORD /f
+
+# Add Recycle Bin to navigation pane
+REG ADD "HKLM\DefaultUser\Software\Classes\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}" /v System.IsPinnedToNameSpaceTree /d 1 /t REG_DWORD /f
+
+# Remove duplicate drives from navigation pane
+REG DELETE "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}" /f
+
 # Show all file extensions by default
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /d 0 /t REG_DWORD /f
 
