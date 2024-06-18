@@ -175,6 +175,16 @@ REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Themes\Perso
 # Show color on title bars
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\DWM" /v ColorPrevalence /d 1 /t REG_DWORD /f
 
+# Set visual preferences to best appearance
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" /v "VisualFXSetting" /t REG_DWORD /d 1 /f
+REG ADD "HKLM\DefaultUser\Control Panel\Desktop" /v "UserPreferencesMask" /t REG_BINARY /d 9e3e078012000000 /f
+
+# Ensure animations are on by default
+REG ADD "HKLM\DefaultUser\Control Panel\Desktop\WindowMetrics" /v "MinAnimate" /t REG_SZ /d "1" /f
+
+# Ensure transparency is on by default
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "EnableTransparency" /t REG_DWORD /d 1 /f
+
 # Always show scrollbars
 REG ADD "HKLM\DefaultUser\Control Panel\Accessibility" /v DynamicScrollbars /d 0 /t REG_DWORD /f
 ###########################################
@@ -187,13 +197,14 @@ REG ADD "HKLM\DefaultUser\Control Panel\Accessibility" /v DynamicScrollbars /d 0
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo /d 1 /t REG_DWORD /f
 
 # Remove Gallery from navigation pane
-REG ADD "HKLM\DefaultUser\Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /v System.IsPinnedToNameSpaceTree /d 0 /t REG_DWORD /f
+REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\NonEnum" /v "{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /d 1 /t REG_DWORD /f
 
 # Add Recycle Bin to navigation pane
+REG ADD "HKLM\Software\Classes\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}" /v System.IsPinnedToNameSpaceTree /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Classes\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}" /v System.IsPinnedToNameSpaceTree /d 1 /t REG_DWORD /f
 
 # Remove duplicate drives from navigation pane
-REG DELETE "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}" /f
+REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\NonEnum" /v "{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}" /d 1 /t REG_DWORD /f
 
 # Show all file extensions by default
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /d 0 /t REG_DWORD /f
