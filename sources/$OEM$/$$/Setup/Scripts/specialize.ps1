@@ -5,6 +5,12 @@
 
 ## Recommended for use with Windows 11 Pro/Enterprise
 
+# Create a temporary "High Performance" plan by duplicating the normal one
+$highPerfGuid = powercfg -duplicatescheme 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c | Select-String -Pattern "Power Scheme GUID: ([\w-]+)" | ForEach-Object { $_.Matches[0].Groups[1].Value }
+
+# Activate the temporary "High Performance" plan
+powercfg -setactive $highPerfGuid
+
 ###########################################
  # # # NTFS OPTIMIZATION # # # ###########
 ###########################################
@@ -426,6 +432,14 @@ REG UNLOAD HKLM\DefaultUser
 # Optimize all volumes
 defrag /allvolumes /o
 
+# Retrieve the GUID of the "Balanced" plan
+$balancedGuid = powercfg -list | Select-String -Pattern "\((Balanced)\)" | ForEach-Object { $_.Line.Split()[3].Trim('(', ')') }
+
+# Switch back to the "Balanced" plan
+powercfg -setactive $balancedGuid
+
+# Delete the temporary "High Performance" plan
+powercfg -delete $highPerfGuid
 
 ###########################################
 
