@@ -196,15 +196,21 @@ REG ADD "HKLM\DefaultUser\Control Panel\Accessibility" /v DynamicScrollbars /d 0
 # File Explorer default to This PC
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo /d 1 /t REG_DWORD /f
 
-# Remove Gallery from navigation pane
-REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\NonEnum" /v "{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /d 1 /t REG_DWORD /f
-
 # Add Recycle Bin to navigation pane
 REG ADD "HKLM\Software\Classes\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}" /v System.IsPinnedToNameSpaceTree /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Classes\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}" /v System.IsPinnedToNameSpaceTree /d 1 /t REG_DWORD /f
 
+# Remove Gallery from navigation pane
+REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\NonEnum" /v "{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /d 1 /t REG_DWORD /f
+
+# Remove Network from navigation pane
+REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\NonEnum" /v "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" /d 1 /t REG_DWORD /f
+
 # Remove duplicate drives from navigation pane
 REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\NonEnum" /v "{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}" /d 1 /t REG_DWORD /f
+
+# Disable recommended section on Home tab
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer" /v ShowRecommendations /d 0 /t REG_DWORD /f
 
 # Show all file extensions by default
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /d 0 /t REG_DWORD /f
@@ -273,8 +279,8 @@ REG ADD "HKLM\DefaultUser\Control Panel\Desktop" /v HungAppTimeout /d "1000" /t 
 # Disable auto-installing Store apps
 REG ADD "HKLM\Software\Microsoft\Windows\CurrentVersion\Communications" /v ConfigureChatAutoInstall /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SilentInstalledAppsEnabled /d 0 /t REG_DWORD /f
-REG DELETE "HKLM\Software\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\DevHomeUpdate" /f
-REG DELETE "HKLM\Software\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\OutlookUpdate" /f
+REG DELETE "HKLM\Software\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\DevHomeUpdate" /va /f
+REG DELETE "HKLM\Software\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\OutlookUpdate" /va /f
 
 # Disable account nags on Start menu & settings
 REG ADD "HKLM\DefaultUser\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_AccountNotifications /d 0 /t REG_DWORD /f
@@ -371,6 +377,13 @@ Set-Acl -Path $folderPath -AclObject $acl
 ## Office customizations
 ###########################################
 
+# Default Word to standard white document mode
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Word\Options" /v DisableDarkMode /d 1 /t REG_DWORD /f
+
+# Disable auto opening attachments in Reading View
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Word\Options" /v AllowAutoReadingMode /d 0 /t REG_DWORD /f
+
+# Disable first-run prompts
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Common" /v qmenable /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Common" /v TurnOffPhotograph /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Common" /v PrivacyNoticeShown /d 2 /t REG_DWORD /f
@@ -380,21 +393,40 @@ REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Common\PTWatson" /v PTW
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\FirstRun" /v BootedRTM /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\FirstRun" /v disablemovie /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Registration" /v AcceptAllEulas /d 1 /t REG_DWORD /f
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Word\Options" /v AllowAutoReadingMode /d 0 /t REG_DWORD /f
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Word\Options" /v DisableDarkMode /d 1 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Common\Privacy\SettingsStore\Anonymous" /v ConnectedExperiencesNoticeVersion /d 1 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Common\Privacy\SettingsStore\Anonymous" /v RequiredDiagnosticDataNoticeVersion /d 1 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Common\Privacy\SettingsStore\Anonymous" /v OptionalDiagnosticDataConsentVersion /d 1 /t REG_DWORD /f
+
+# Disable Outlook Mobile prompts
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Outlook\Setup" /v SetupOutlookMobileWebPageOpened /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Outlook\Options\General" /v DisableOutlookMobileHyperlink /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Office\16.0\Outlook\Options\General" /v DisableOutlookMobileHyperlink /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Office\16.0\Outlook\Setup" /v SetupOutlookMobileWebPageOpened /d 1 /t REG_DWORD /f
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Common\Privacy\SettingsStore\Anonymous" /v ConnectedExperiencesNoticeVersion /d 1 /t REG_DWORD /f
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Common\Privacy\SettingsStore\Anonymous" /v RequiredDiagnosticDataNoticeVersion /d 1 /t REG_DWORD /f
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Office\16.0\Common\Privacy\SettingsStore\Anonymous" /v OptionalDiagnosticDataConsentVersion /d 1 /t REG_DWORD /f
+###########################################
+
+
+## OneDrive refinement 
+###########################################
+
+# Remove 32-bit user OneDrive installer
+REG DELETE "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Run" /v OneDriveSetup /f
+
+# OneDrive for Business Team Site instant auto mount (QoL tweak for Enterprise/Education environments)
+REG ADD "HKLM\DefaultUser\Software\Microsoft\OneDrive\Accounts\Business1" /v TimerAutoMount /d 1 /t REG_QWORD /f
 ###########################################
 
 
 ## Unmount Default User Account
 ###########################################
 REG UNLOAD HKLM\DefaultUser
+
+
+## Install OneDrive 64-bit for all users
+###########################################
+
+# Comment this out if you do not want OneDrive installed
+Start-Process "$Env:SystemRoot\System32\OneDriveSetup.exe" -ArgumentList "/allusers" -Wait
+###########################################
 
 
 ###########################################
