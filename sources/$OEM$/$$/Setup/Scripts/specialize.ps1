@@ -96,6 +96,14 @@ Register-ScheduledTask -Action $action -Trigger $trigger -TaskName $taskname -De
 ###########################################
 
 
+## Install OneDrive 64-bit for all users
+###########################################
+
+# Comment this out if you do not want OneDrive installed
+Start-Process "$Env:SystemRoot\System32\OneDriveSetup.exe" -ArgumentList "/allusers"
+###########################################
+
+
 ###########################################
  # # # REGISTRY & POLICY TWEAKS # # # ####
 ###########################################
@@ -174,16 +182,6 @@ REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Themes\Perso
 
 # Show color on title bars
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\DWM" /v ColorPrevalence /d 1 /t REG_DWORD /f
-
-# Set visual preferences to best appearance
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" /v "VisualFXSetting" /t REG_DWORD /d 1 /f
-REG ADD "HKLM\DefaultUser\Control Panel\Desktop" /v "UserPreferencesMask" /t REG_BINARY /d 9e3e078012000000 /f
-
-# Ensure animations are on by default
-REG ADD "HKLM\DefaultUser\Control Panel\Desktop\WindowMetrics" /v "MinAnimate" /t REG_SZ /d "1" /f
-
-# Ensure transparency is on by default
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "EnableTransparency" /t REG_DWORD /d 1 /f
 
 # Always show scrollbars
 REG ADD "HKLM\DefaultUser\Control Panel\Accessibility" /v DynamicScrollbars /d 0 /t REG_DWORD /f
@@ -419,14 +417,6 @@ REG ADD "HKLM\DefaultUser\Software\Microsoft\OneDrive\Accounts\Business1" /v Tim
 ## Unmount Default User Account
 ###########################################
 REG UNLOAD HKLM\DefaultUser
-
-
-## Install OneDrive 64-bit for all users
-###########################################
-
-# Comment this out if you do not want OneDrive installed
-Start-Process "$Env:SystemRoot\System32\OneDriveSetup.exe" -ArgumentList "/allusers" -Wait
-###########################################
 
 
 ###########################################
