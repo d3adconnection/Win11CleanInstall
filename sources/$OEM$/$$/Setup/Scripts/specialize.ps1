@@ -289,6 +289,7 @@ REG DELETE "HKLM\Software\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\O
 
 # Disable account nags on Start menu & settings
 REG ADD "HKLM\DefaultUser\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_AccountNotifications /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Microsoft\Windows\CurrentVersion\SystemSettings\AccountNotifications" /v EnableAccountNotifications /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Microsoft\Windows\CurrentVersion\SystemSettings\AccountNotifications" /v DisableAccountNotifications /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Policies\Microsoft\Windows\CurrentVersion\AccountNotifications" /v DisableAccountNotifications /d 1 /t REG_DWORD /f
 
