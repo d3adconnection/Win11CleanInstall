@@ -276,6 +276,7 @@ REG ADD "HKLM\DefaultUser\Control Panel\Desktop" /v JPEGImportQuality /t REG_DWO
 
 # Reduce delay for startup apps
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize" /v StartupDelayInMSec /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize" /v WaitforIdleState /d 0 /t REG_DWORD /f
 
 # Reduce app forced shutdown delay
 REG ADD "HKLM\DefaultUser\Control Panel\Desktop" /v HungAppTimeout /d "1000" /t REG_SZ /f
