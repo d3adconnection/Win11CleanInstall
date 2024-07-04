@@ -10,25 +10,6 @@ $highPerfGuid = powercfg -duplicatescheme 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c |
 
 # Activate the temporary "High Performance" plan
 powercfg -setactive $highPerfGuid
-
-###########################################
- # # # NTFS OPTIMIZATION # # # ###########
-###########################################
-# NTFS optimization (fsutil tweaks from https://github.com/r33int/Windows10-Postinstall)
-$DriveLetters = (Get-WmiObject -Class Win32_Volume).DriveLetter
-ForEach ($Drive in $DriveLetters) {
-    If (-not ([string]::IsNullOrEmpty($Drive))) {
-        fsutil resource setavailable $Drive
-        fsutil resource setlog shrink 10 $Drive
-        fsutil 8dot3name strip /f /l nul /s $Drive
-        fsutil behavior set disable8dot3 $Drive 1	
-    }
-}
-fsutil behavior set memoryusage 2
-fsutil behavior set disablelastaccess 1
-fsutil behavior set mftzone 2
-fsutil behavior set disable8dot3 1
-fsutil 8dot3name set 1
 ###########################################
 
 ###########################################
@@ -99,14 +80,6 @@ $action = New-ScheduledTaskAction -Execute 'powershell.exe' `
 $trigger =  New-ScheduledTaskTrigger -AtLogon
 $settings = New-ScheduledTaskSettingsSet -ExecutionTimeLimit (New-TimeSpan -Minutes 2) -RestartCount 3 -RestartInterval (New-TimeSpan -Minutes 1)
 Register-ScheduledTask -Action $action -Trigger $trigger -TaskName $taskname -Description $taskdescription -Settings $settings -User "System"
-###########################################
-
-
-## Install OneDrive 64-bit for all users
-###########################################
-
-# Comment this out if you do not want OneDrive installed
-Start-Process "$Env:SystemRoot\System32\OneDriveSetup.exe" -ArgumentList "/allusers"
 ###########################################
 
 
@@ -288,10 +261,10 @@ REG DELETE "HKLM\Software\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\D
 REG DELETE "HKLM\Software\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\OutlookUpdate" /va /f
 
 # Disable account nags on Start menu & settings
-REG ADD "HKLM\DefaultUser\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_AccountNotifications /d 0 /t REG_DWORD /f
-REG ADD "HKLM\DefaultUser\Microsoft\Windows\CurrentVersion\SystemSettings\AccountNotifications" /v EnableAccountNotifications /d 0 /t REG_DWORD /f
-REG ADD "HKLM\DefaultUser\Microsoft\Windows\CurrentVersion\SystemSettings\AccountNotifications" /v DisableAccountNotifications /d 1 /t REG_DWORD /f
-REG ADD "HKLM\DefaultUser\Policies\Microsoft\Windows\CurrentVersion\AccountNotifications" /v DisableAccountNotifications /d 1 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_AccountNotifications /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\SystemSettings\AccountNotifications" /v EnableAccountNotifications /d 0 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\SystemSettings\AccountNotifications" /v DisableAccountNotifications /d 1 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Windows\CurrentVersion\AccountNotifications" /v DisableAccountNotifications /d 1 /t REG_DWORD /f
 
 # Disable new app installed association notifications
 REG ADD "HKLM\Software\Policies\Microsoft\Windows\Explorer" /v NoNewAppAlert /d 1 /t REG_DWORD /f
@@ -348,7 +321,6 @@ REG ADD "HKLM\DefaultUser\Software\Microsoft\Siuf\Rules" /v NumberOfSIUFInPeriod
 # Force disable Windows Recall (not typically available on x86 PCs)
 REG ADD "HKLM\Software\Policies\Microsoft\Windows\WindowsAI" /v DisableAIDataAnalysis /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Windows\WindowsAI" /v DisableAIDataAnalysis /d 1 /t REG_DWORD /f
-
 ###########################################
 
 
@@ -414,7 +386,7 @@ REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Office\16.0\Outlook\Setup"
 ## OneDrive refinement 
 ###########################################
 
-# Remove 32-bit user OneDrive installer
+# Remove 32-bit user-based OneDrive installer
 REG DELETE "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Run" /v OneDriveSetup /f
 
 # OneDrive for Business Team Site instant auto mount (QoL tweak for Enterprise/Education environments)
@@ -430,6 +402,21 @@ REG UNLOAD HKLM\DefaultUser
 ###########################################
  # # # FINAL RUN # # # ###################
 ###########################################
+# NTFS optimization (fsutil tweaks from https://github.com/r33int/Windows10-Postinstall)
+$DriveLetters = (Get-WmiObject -Class Win32_Volume).DriveLetter
+ForEach ($Drive in $DriveLetters) {
+    If (-not ([string]::IsNullOrEmpty($Drive))) {
+        fsutil resource setavailable $Drive
+        fsutil resource setlog shrink 10 $Drive
+        fsutil 8dot3name strip /f /l nul /s $Drive
+        fsutil behavior set disable8dot3 $Drive 1	
+    }
+}
+fsutil behavior set memoryusage 2
+fsutil behavior set disablelastaccess 1
+fsutil behavior set mftzone 2
+fsutil behavior set disable8dot3 1
+fsutil 8dot3name set 1
 
 # Optimize all volumes
 defrag /allvolumes /o
