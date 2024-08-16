@@ -117,6 +117,10 @@ REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Adv
 REG ADD "HKLM\Software\Policies\Microsoft\Windows\Explorer" /v HideRecommendedSection /d 1 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Windows\Explorer" /v HideRecommendedSection /d 1 /t REG_DWORD /f
 
+# Disable Recommended Websites on Start
+REG ADD "HKLM\Software\Policies\Microsoft\Windows\Explorer" /v HideRecommendedPersonalizedSites /d 1 /t REG_DWORD /f
+REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Windows\Explorer" /v HideRecommendedPersonalizedSites /d 1 /t REG_DWORD /f
+
 # Remove search from taskbar + make search local-only
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Search" /v SearchboxTaskbarMode /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Search" /v BingSearchEnabled /d 0 /t REG_DWORD /f
