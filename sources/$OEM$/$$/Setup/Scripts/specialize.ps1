@@ -138,7 +138,7 @@ REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Adv
 # Remove weather/news from taskbar
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Feeds" /v ShellFeedsTaskbarViewMode /d 2 /t REG_DWORD /f
 
-# Remove Widgets
+# Remove & disable widgets
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarDa /d 0 /t REG_DWORD /f
 REG ADD "HKLM\Software\Microsoft\PolicyManager\default\NewsAndInterests\AllowNewsAndInterests" /v value /t REG_DWORD /d 0 /f
 REG ADD "HKLM\Software\Policies\Microsoft\Dsh" /v AllowNewsAndInterests /t REG_DWORD /d 0 /f
@@ -298,7 +298,7 @@ REG ADD "HKLM\DefaultUser\Control Panel\UnsupportedHardwareNotificationCache" /v
 REG ADD "HKLM\DefaultUser\Control Panel\UnsupportedHardwareNotificationCache" /v SV2 /t REG_DWORD /d 0 /f
 REG ADD "HKLM\DefaultUser\Control Panel\UnsupportedHardwareNotificationCache" /v SV3 /t REG_DWORD /d 0 /f
 
-# Disable full screen pop ups on login
+# Disable full screen update pop ups after login
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement" /v ScoobeSystemSettingEnabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Policies\Microsoft\Windows\OOBE" /v DisablePrivacyExperience /d 1 /t REG_DWORD /f
 
@@ -314,7 +314,10 @@ REG ADD "HKLM\Software\Policies\Microsoft\Windows Defender\Reporting" /v Disable
 REG ADD "HKLM\Software\Policies\Microsoft\Windows Defender Security Center\Notifications" /v DisableEnhancedNotifications /t REG_DWORD /d 1 /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows Defender Security Center\Virus and threat protection" /v SummaryNotificationDisabled /d 1 /t REG_DWORD /f
 
-# Diagnostic data settings
+# Set Defender to run as low priority task
+REG ADD "HKLM\Software\Policies\Microsoft\Windows Defender" /v AllowFastServiceStartup /d 0 /t REG_DWORD /f
+
+# Disable many diagnostic data settings
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Input\TIPC" /v Enabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" /v Enabled /d 0 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Privacy" /v TailoredExperiencesWithDiagnosticDataEnabled /d 0 /t REG_DWORD /f
@@ -433,6 +436,9 @@ powercfg -setactive $balancedGuid
 
 # Delete the temporary "High Performance" plan
 powercfg -delete $highPerfGuid
+
+# If no battery is present, disable hibernation and fast startup
+If ((@(Get-WmiObject Win32_Battery).count) -eq 0) { powercfg -h off }
 
 ###########################################
 
