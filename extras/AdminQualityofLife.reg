@@ -3,9 +3,12 @@ Windows Registry Editor Version 5.00
 ; Windows Admin Quality of Life tweaks
 ; For those who like to live dangerously
 ;
+;
 ; WARNING: THESE TWEAKS INHERENTLY DISABLE CERTAIN SECURITY FEATURES IN WINDOWS.
 ; DO NOT INSTALL THESE ON A COMPUTER YOU'RE WORKING ON FOR SOMEONE ELSE.
 ; IMPORT THESE AT YOUR OWN RISK.
+;
+; Some of these are user-only, but some are system-wide changes!
 
 ; Set PowerShell ExecutionPolicy to Bypass, allowing all scripts to run
 [HKEY_CURRENT_USER\Software\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell]
@@ -15,11 +18,11 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\DeviceGuard]
 "EnableVirtualizationBasedSecurity"=dword:00000000
 
-; SMB Enable insecure guest logons
-[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\LanmanWorkstation]
-"AllowInsecureGuestAuth"=dword:00000001
+; SMB Enable insecure guest logons & disable SMB signing requirement
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters]
 "AllowInsecureGuestAuth"=dword:00000001
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters]
+"RequireSecuritySignature"=dword:00000000
 
 ; Disable "Open File Security Warning"
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments]

@@ -68,6 +68,20 @@ ForEach ($App in $AppsToRemove) {
 	}
 }
 
+
+###########################################
+ # # # APP INSTALLS / UPDATES # # # ######
+###########################################
+
+if (Test-Connection "aka.ms") {
+	# Update WinGet if we have a network connection
+    if (-not (Get-PackageProvider NuGet -ErrorAction Ignore)) { Install-PackageProvider NuGet -Force }
+	Install-Module Microsoft.WinGet.Client -Force -Repository PSGallery
+	Import-Module Microsoft.WinGet.Client
+	Repair-WinGetPackageManager
+}
+
+
 ###########################################
  # # # SCHEDULED TASKS # # # #############
 ###########################################
@@ -146,25 +160,17 @@ REG ADD "HKLM\Software\Policies\Microsoft\Dsh" /v AllowNewsAndInterests /t REG_D
 # Remove Chat from taskbar
 REG ADD "HKLM\Software\Policies\Microsoft\Windows\Windows Chat" /v ChatIcon /d 2 /t REG_DWORD /f
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarMn /d 0 /t REG_DWORD /f
-
-# Remove People from taskbar (deprecated?)
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v PeopleBand /d 0 /t REG_DWORD /f
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v CapacityOfPeopleBar /d 0 /t REG_DWORD /f
 ###########################################
 
 
 ## Window customizations 
 ###########################################
 
-# Disable Aero Shake
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v DisallowShaking /d 1 /t REG_DWORD /f
-
-# Dark mode registry keys (they don't work but no harm having them here for reference)
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v AppsUseLightTheme /d 0 /t REG_DWORD /f
-REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v SystemUsesLightTheme /d 0 /t REG_DWORD /f
-
 # Show color on title bars
 REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\DWM" /v ColorPrevalence /d 1 /t REG_DWORD /f
+
+# Disable Aero Shake
+REG ADD "HKLM\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v DisallowShaking /d 1 /t REG_DWORD /f
 
 # Always show scrollbars
 REG ADD "HKLM\DefaultUser\Control Panel\Accessibility" /v DynamicScrollbars /d 0 /t REG_DWORD /f
