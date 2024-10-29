@@ -75,10 +75,11 @@ ForEach ($App in $AppsToRemove) {
 
 if (Test-Connection "aka.ms") {
 	# Update WinGet if we have a network connection
-    if (-not (Get-PackageProvider NuGet -ErrorAction Ignore)) { Install-PackageProvider NuGet -Force }
-	Install-Module Microsoft.WinGet.Client -Force -Repository PSGallery
+    Install-PackageProvider NuGet -Scope AllUsers -Force
+	Install-Module Microsoft.WinGet.Client -Scope AllUsers -Force -Repository PSGallery
 	Import-Module Microsoft.WinGet.Client
-	Repair-WinGetPackageManager
+	Repair-WinGetPackageManager -AllUsers -Latest
+	winget source update --disable-interactivity
 }
 
 
