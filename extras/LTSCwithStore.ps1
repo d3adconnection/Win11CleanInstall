@@ -14,12 +14,12 @@ If (-not (Get-AppxPackage 'Microsoft.WindowsStore')) {
 	Start-Sleep -s 60
 }
 
-If (-not (Get-WindowsCapability -Online -Name Media.WindowsMediaPlayer).State -ne 'NotPresent') {
+If (-not (Get-WindowsCapability -Online -Name Media.WindowsMediaPlayer).State -ne 'NotPresent')) {
 	Write-Output 'Installing Windows Media Player Legacy...'
 	Add-WindowsCapability -Online -Name Media.WindowsMediaPlayer~~~~0.0.12.0
 }
 
-If (-not (Get-WindowsCapability -Online -Name Media.MediaFeaturePack).State -ne 'NotPresent') {
+If (-not (Get-WindowsCapability -Online -Name Media.MediaFeaturePack).State -ne 'NotPresent')) {
 	Write-Output 'Installing Media Feature Pack...'
 	Add-WindowsCapability -Online -Name Media.MediaFeaturePack~~~~0.0.1.0
 }
@@ -34,12 +34,12 @@ winget source update --disable-interactivity
 Write-Output 'Installing apps...'
 $StoreApps = @(
     '9MSMLRH6LZF3' # Notepad
+	'9WZDNCRFHVN5' # Calculator
     '9N0DX20HK701' # Terminal
     '9MV0B5HZVK9Z' # Xbox
     '9MWPM2CQNLHN' # Xbox Gaming Services
     '9NZKPSTSNW4P' # Xbox Game Bar
 	'9WZDNCRD1HKW' # Xbox Identity Provider
-	'9WZDNCRFHVN5' # Calculator
 	# '9WZDNCRFJBH4' # Photos
 )
 
