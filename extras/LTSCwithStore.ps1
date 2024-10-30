@@ -6,17 +6,30 @@ If (-not ([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-
     Start-Process powershell -Args "-f `"$PSCommandPath`"" -v RunAs; Exit 
 }
 
-Write-Output 'Running WSReset...'
-WSReset -i
+If (-not (Get-AppxPackage 'Microsoft.WindowsStore')) {
+	Write-Output 'Running WSReset...'
+	WSReset -i
+	
+	Write-Output 'Sleeping for 1 minute to allow Store to finish installing components...'
+	Start-Sleep -s 60
+}
 
-Write-Output 'Sleeping for 1 minute to allow Store to finish installing components...'
-Start-Sleep -s 60
+If (-not (Get-WindowsCapability -Online -Name Media.WindowsMediaPlayer).State -ne 'NotPresent') {
+	Write-Output 'Installing Windows Media Player Legacy...'
+	Add-WindowsCapability -Online -Name Media.WindowsMediaPlayer~~~~0.0.12.0
+}
+
+If (-not (Get-WindowsCapability -Online -Name Media.MediaFeaturePack).State -ne 'NotPresent') {
+	Write-Output 'Installing Media Feature Pack...'
+	Add-WindowsCapability -Online -Name Media.MediaFeaturePack~~~~0.0.1.0
+}
 
 Write-Output 'Ensuring WinGet is updated...'
-if (-not (Get-PackageProvider NuGet -ErrorAction Ignore)) { Install-PackageProvider NuGet -Force }
-Install-Module Microsoft.WinGet.Client -Force -Repository PSGallery
-Import-Module Microsoft.WinGet.Client
-Repair-WinGetPackageManager
+Install-PackageProvider NuGet -Scope AllUsers -Force -Confirm:$False
+Install-Module Microsoft.WinGet.Client -Scope AllUsers -Force -Confirm:$False -Repository PSGallery
+try { Import-Module Microsoft.WinGet.Client } catch { throw 'WinGet Failed.' }
+Repair-WinGetPackageManager -AllUsers -Force -Latest
+winget source update --disable-interactivity
 
 Write-Output 'Installing apps...'
 $StoreApps = @(
@@ -34,8 +47,9 @@ $StoreApps | % { winget install --id $_ --source msstore -h --accept-package-agr
 
 If (Get-AppxPackage 'Microsoft.WindowsTerminal') {
 	Write-Output 'Setting Windows Terminal as default console host...'
-	Set-ItemProperty 'HKCU:\Console\%%Startup' DelegationConsole '{2EACA947-7F5F-4CFA-BA87-8F7FBEEFBE69}'
-	Set-ItemProperty 'HKCU:\Console\%%Startup' DelegationTerminal '{E12CFF52-A866-4C77-9A90-F570A7AA2C6B}'
+	New-Item -Path 'HKCU:\Console\%%Startup' -Force -ErrorAction SilentlyContinue | Out-Null
+	Set-ItemProperty -Path 'HKCU:\Console\%%Startup' -Name 'DelegationConsole' -Value '{2EACA947-7F5F-4CFA-BA87-8F7FBEEFBE69}' -ErrorAction SilentlyContinue
+	Set-ItemProperty -Path 'HKCU:\Console\%%Startup' -Name 'DelegationTerminal' -Value '{E12CFF52-A866-4C77-9A90-F570A7AA2C6B}' -ErrorAction SilentlyContinue
 }
 
 If ((Get-AppxPackage 'Microsoft.WindowsNotepad') -And (Test-Path 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Notepad.lnk')) {

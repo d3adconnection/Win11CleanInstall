@@ -59,11 +59,11 @@ ForEach ($App in $AppsToRemove) {
 	$PackageFullName = (Get-AppxPackage $App).PackageFullName
 	$ProPackageFullName = (Get-AppxProvisionedPackage -online | where {$_.Displayname -eq $App}).PackageName
 	if ($PackageFullName) {
-		start-sleep -Seconds 5
+		Start-Sleep -s 2
 		remove-AppxPackage -Package $PackageFullName -AllUsers
 	}
 	if ($ProPackageFullName) {
-		start-sleep -Seconds 5 
+		Start-Sleep -s 2 
 		Remove-AppxProvisionedPackage -PackageName $ProPackageFullName -AllUsers -Online
 	}
 }
@@ -81,6 +81,14 @@ if (Test-Connection "aka.ms") {
 	Repair-WinGetPackageManager -AllUsers -Latest
 	winget source update --disable-interactivity
 }
+
+## OneDrive 64-bit for all users
+###########################################
+
+# This is the ideal way to have OneDrive installed
+# Uncomment this out if you want it installed
+# Start-Process "$Env:SystemRoot\System32\OneDriveSetup.exe" -ArgumentList "/allusers"
+###########################################
 
 
 ###########################################
