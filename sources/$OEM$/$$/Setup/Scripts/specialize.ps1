@@ -73,15 +73,6 @@ ForEach ($App in $AppsToRemove) {
  # # # APP INSTALLS / UPDATES # # # ######
 ###########################################
 
-if (Test-Connection "aka.ms") {
-	# Update WinGet if we have a network connection
-    Install-PackageProvider NuGet -Scope AllUsers -Force
-	Install-Module Microsoft.WinGet.Client -Scope AllUsers -Force -Repository PSGallery
-	Import-Module Microsoft.WinGet.Client
-	Repair-WinGetPackageManager -AllUsers -Latest
-	winget source update --disable-interactivity
-}
-
 ## OneDrive 64-bit for all users
 ###########################################
 
