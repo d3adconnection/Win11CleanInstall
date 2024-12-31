@@ -1,5 +1,5 @@
-# For a clean install that's Xbox and Store friendly, use this script with Windows 11 LTSC (IoT) Enterprise.
-# This will install the Store, along with Notepad, Calculator, Terminal, Xbox and Game Bar.
+# For a clean install that's Store friendly, use this script with Windows 11 LTSC (IoT) Enterprise.
+# This will install the Store, along with Notepad, Calculator, Snipping Tool and Terminal.
 
 Write-Output 'Checking for elevation...'
 If (-not ([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-5-32-544')) { 
@@ -14,17 +14,9 @@ If (-not (Get-AppxPackage 'Microsoft.WindowsStore')) {
 	Start-Sleep -s 60
 }
 
-If (-not (Get-WindowsCapability -Online -Name Media.WindowsMediaPlayer).State -ne 'NotPresent')) {
-	Write-Output 'Installing Windows Media Player Legacy...'
-	Add-WindowsCapability -Online -Name Media.WindowsMediaPlayer~~~~0.0.12.0
-}
-
-If (-not (Get-WindowsCapability -Online -Name Media.MediaFeaturePack).State -ne 'NotPresent')) {
-	Write-Output 'Installing Media Feature Pack...'
-	Add-WindowsCapability -Online -Name Media.MediaFeaturePack~~~~0.0.1.0
-}
-
 Write-Output 'Ensuring WinGet is updated...'
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 
+Install-Module PowerShellGet -SkipPublisherCheck -Scope AllUsers -Force -Confirm:$False
 Install-PackageProvider NuGet -Scope AllUsers -Force -Confirm:$False
 Install-Module Microsoft.WinGet.Client -Scope AllUsers -Force -Confirm:$False -Repository PSGallery
 try { Import-Module Microsoft.WinGet.Client } catch { throw 'WinGet Failed.' }
@@ -35,12 +27,9 @@ Write-Output 'Installing apps...'
 $StoreApps = @(
     '9MSMLRH6LZF3' # Notepad
 	'9WZDNCRFHVN5' # Calculator
+	'9MZ95KL8MR0L' # Snipping Tool
+	'9PCFS5B6T72H' # Paint
     '9N0DX20HK701' # Terminal
-    '9MV0B5HZVK9Z' # Xbox
-    '9MWPM2CQNLHN' # Xbox Gaming Services
-    '9NZKPSTSNW4P' # Xbox Game Bar
-	'9WZDNCRD1HKW' # Xbox Identity Provider
-	# '9WZDNCRFJBH4' # Photos
 )
 
 $StoreApps | % { winget install --id $_ --source msstore -h --accept-package-agreements --accept-source-agreements --disable-interactivity }
@@ -53,13 +42,26 @@ If (Get-AppxPackage 'Microsoft.WindowsTerminal') {
 }
 
 If ((Get-AppxPackage 'Microsoft.WindowsNotepad') -And (Test-Path 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Notepad.lnk')) {
-	Write-Output 'Removing old Notepad shortcut...'
+	Write-Output 'Removing classic Notepad app...'
 	Remove-Item 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Notepad.lnk' -Force
+	Remove-WindowsCapability -Online -Name Microsoft.Windows.Notepad~~~~0.0.1.0
 }
 
 If ((Get-AppxPackage 'Microsoft.WindowsCalculator') -And (Test-Path 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Calculator.lnk')) {
 	Write-Output 'Removing old Calculator shortcut...'
 	Remove-Item 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Calculator.lnk' -Force
+}
+
+If ((Get-AppxPackage 'Microsoft.ScreenSketch') -And (Test-Path 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Snipping Tool.lnk')) {
+	Write-Output 'Removing classic Snipping Tool app...'
+	Remove-Item 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Snipping Tool.lnk' -Force
+	Remove-WindowsCapability -Online -Name Microsoft.Windows.SnippingTool~~~~0.0.1.0
+}
+
+If ((Get-AppxPackage 'Microsoft.Paint') -And (Test-Path 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Paint.lnk')) {
+	Write-Output 'Removing classic Paint app...'
+	Remove-Item 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Paint.lnk' -Force
+	Remove-WindowsCapability -Online -Name Microsoft.Windows.MSPaint~~~~0.0.1.0
 }
 
 Write-Output 'Finished!'

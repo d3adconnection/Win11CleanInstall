@@ -10,7 +10,19 @@ $highPerfGuid = powercfg -duplicatescheme 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c |
 
 # Activate the temporary "High Performance" plan
 powercfg -setactive $highPerfGuid
+
+# Disable any sleep functions on this temporary power plan
+powercfg /x -hibernate-timeout-ac 0
+powercfg /x -hibernate-timeout-dc 0
+powercfg /x -disk-timeout-ac 0
+powercfg /x -disk-timeout-dc 0
+powercfg /x -monitor-timeout-ac 0
+powercfg /x -monitor-timeout-dc 0
+powercfg /x -standby-timeout-ac 0
+powercfg /x -standby-timeout-dc 0
 ###########################################
+
+$progressPreference = 'SilentlyContinue'
 
 ###########################################
  # # # APP CLEANUP # # # #################
@@ -60,11 +72,11 @@ ForEach ($App in $AppsToRemove) {
 	$ProPackageFullName = (Get-AppxProvisionedPackage -online | where {$_.Displayname -eq $App}).PackageName
 	if ($PackageFullName) {
 		Start-Sleep -s 2
-		remove-AppxPackage -Package $PackageFullName -AllUsers
+		Remove-AppxPackage -Package $PackageFullName -AllUsers > $null
 	}
 	if ($ProPackageFullName) {
 		Start-Sleep -s 2 
-		Remove-AppxProvisionedPackage -PackageName $ProPackageFullName -AllUsers -Online
+		Remove-AppxProvisionedPackage -PackageName $ProPackageFullName -AllUsers -Online > $null
 	}
 }
 
@@ -72,15 +84,6 @@ ForEach ($App in $AppsToRemove) {
 ###########################################
  # # # APP INSTALLS / UPDATES # # # ######
 ###########################################
-
-if (Test-Connection "aka.ms") {
-	# Update WinGet if we have a network connection
-    Install-PackageProvider NuGet -Scope AllUsers -Force
-	Install-Module Microsoft.WinGet.Client -Scope AllUsers -Force -Repository PSGallery
-	Import-Module Microsoft.WinGet.Client
-	Repair-WinGetPackageManager -AllUsers -Latest
-	winget source update --disable-interactivity
-}
 
 ## OneDrive 64-bit for all users
 ###########################################
