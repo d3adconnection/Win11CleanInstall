@@ -1,0 +1,363 @@
+Windows Registry Editor Version 5.00
+
+;; ;; ;;;;;;;;;;;;;;;;;;;; ;; ;; ;;;;;;;;;;
+; ; WINDOWS 11 CLEAN INSTALL ; ; ;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;; packaged by d3ad connection ;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Bypass Microsoft Account
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\OOBE]
+"BypassNRO"=dword:00000001
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; Login screen customizations
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Disable login screen blur
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System]
+"DisableAcrylicBackgroundOnLogon"=dword:00000001
+
+; Disable first logon animation screen
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System]
+"EnableFirstLogonAnimation"=dword:00000000
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon]
+"EnableFirstLogonAnimation"=dword:00000000
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; Start menu/taskbar customizations
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Show more pins on Start
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"Start_Layout"=dword:00000001
+
+; Hide Recommended on Start (only works on Education and Enterprise)
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Explorer]
+"HideRecommendedSection"=dword:00000001
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Policies\Microsoft\Windows\Explorer]
+"HideRecommendedSection"=dword:00000001
+
+; Disable Recommended Websites on Start
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Explorer]
+"HideRecommendedPersonalizedSites"=dword:00000001
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Policies\Microsoft\Windows\Explorer]
+"HideRecommendedPersonalizedSites"=dword:00000001
+
+; Remove search from taskbar + make search local-only
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Search]
+"SearchboxTaskbarMode"=dword:00000000
+"BingSearchEnabled"=dword:00000000
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Policies\Microsoft\Windows\Explorer]
+"DisableSearchBoxSuggestions"=dword:00000001
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Feeds\DSB]
+"ShowDynamicContent"=dword:00000000
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Windows Search]
+"SearchOnTaskbarMode"=dword:00000000
+"EnableDynamicContentInWSB"=dword:00000000
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\SearchSettings]
+"IsDynamicSearchBoxEnabled"=dword:00000000
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Feeds\DSB]
+"OpenOnHover"=dword:00000000
+"ShowDynamicContent"=dword:00000000
+
+; Remove Copilot from taskbar
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"ShowCopilotButton"=dword:00000000
+
+; Remove weather/news from taskbar
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Feeds]
+"ShellFeedsTaskbarViewMode"=dword:00000002
+
+; Remove & disable widgets
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"TaskbarDa"=dword:00000000
+[HKEY_LOCAL_MACHINE\Software\Microsoft\PolicyManager\default\NewsAndInterests\AllowNewsAndInterests]
+"value"=dword:00000000
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Dsh]
+"AllowNewsAndInterests"=dword:00000000
+
+; Remove Chat from taskbar
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Windows Chat]
+"ChatIcon"=dword:00000002
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"TaskbarMn"=dword:00000000
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; Window customizations 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Show color on title bars
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\DWM]
+"ColorPrevalence"=dword:00000001
+
+; Disable Aero Shake
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"DisallowShaking"=dword:00000001
+
+; Always show scrollbars
+[HKEY_LOCAL_MACHINE\UserRegistry\Control Panel\Accessibility]
+"DynamicScrollbars"=dword:00000000
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; File Explorer customizations
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; File Explorer default to This PC
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"LaunchTo"=dword:00000001
+
+; Add Recycle Bin to navigation pane
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}]
+"System.IsPinnedToNameSpaceTree"=dword:00000001
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Classes\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}]
+"System.IsPinnedToNameSpaceTree"=dword:00000001
+
+; Remove Gallery from navigation pane
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\NonEnum]
+"{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}"=dword:00000001
+
+; Remove Network from navigation pane
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\NonEnum]
+"{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}"=dword:00000001
+
+; Remove duplicate drives from navigation pane
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\NonEnum]
+"{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}"=dword:00000001
+
+; Disable recommended section on Home tab
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer]
+"ShowRecommendations"=dword:00000000
+
+; Show all file extensions by default
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"HideFileExt"=dword:00000000
+
+; Small icon view in Control Panel
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel]
+"StartupPage"=dword:00000001
+"AllItemsIconView"=dword:00000001
+
+; Launch Explorer windows in separate processes
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"SeparateProcess"=dword:00000001
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; Backend Customizations
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Disable background profile sign in on restart (not to be confused with Autologon)
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System]
+"DisableAutomaticRestartSignOn"=dword:00000001
+
+; Disable thumbnail cache
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"DisableThumbnailCache"=dword:00000001
+"DisableThumbsDBOnNetworkFolders"=dword:00000001
+
+; Disable compression on wallpapers
+[HKEY_LOCAL_MACHINE\UserRegistry\Control Panel\Desktop]
+"JPEGImportQuality"=dword:00000064
+
+; Reduce delay for startup apps
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize]
+"StartupDelayInMSec"=dword:00000000
+"WaitforIdleState"=dword:00000000
+
+; Reduce app forced shutdown delay
+[HKEY_LOCAL_MACHINE\UserRegistry\Control Panel\Desktop]
+"HungAppTimeout"="1000"
+
+; Disable auto-installing Store apps
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Communications]
+"ConfigureChatAutoInstall"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager]
+"SilentInstalledAppsEnabled"=dword:00000000
+
+; Disable account nags on Start & settings
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"Start_AccountNotifications"=dword:00000000
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\SystemSettings\AccountNotifications]
+"EnableAccountNotifications"=dword:00000000
+"DisableAccountNotifications"=dword:00000001
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Policies\Microsoft\Windows\CurrentVersion\AccountNotifications]
+"DisableAccountNotifications"=dword:00000001
+
+; Disable new app installed association notifications
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Explorer]
+"NoNewAppAlert"=dword:00000001
+
+; Disable tips and suggestions
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"Start_IrisRecommendations"=dword:00000000
+"ShowSyncProviderNotifications"=dword:00000000
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager]
+"SystemPaneSuggestionsEnabled"=dword:00000000
+"SoftLandingEnabled"=dword:00000000
+"SubscribedContent-310093Enabled"=dword:00000000
+"SubscribedContent-338388Enabled"=dword:00000000
+"SubscribedContent-338389Enabled"=dword:00000000
+"SubscribedContent-338393Enabled"=dword:00000000
+"SubscribedContent-353694Enabled"=dword:00000000
+"SubscribedContent-353696Enabled"=dword:00000000
+"SubscribedContent-353698Enabled"=dword:00000000
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.ActionCenter.SmartOptOut]
+"Enabled"=dword:00000000
+
+; Disable lock screen tips but keep Spotlight functional
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager]
+"ContentDeliveryAllowed"=dword:00000001
+"RotatingLockScreenEnabled"=dword:00000001
+"RotatingLockScreenOverlayEnabled"=dword:00000000
+"SubscribedContent-338387Enabled"=dword:00000000
+
+; Disable System requirements not met message in Settings (deprecated?)
+[HKEY_LOCAL_MACHINE\UserRegistry\Control Panel\UnsupportedHardwareNotificationCache]
+"SV1"=dword:00000000
+"SV2"=dword:00000000
+"SV3"=dword:00000000
+
+; Disable full screen update pop ups after login
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement]
+"ScoobeSystemSettingEnabled"=dword:00000000
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Policies\Microsoft\Windows\OOBE]
+"DisablePrivacyExperience"=dword:00000001
+
+; Disable unneeded security and maintenance notifications
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows Security Health\State]
+"AccountProtection_MicrosoftAccount_Disconnected"=dword:00000000
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.SecurityAndMaintenance]
+"Enabled"=dword:00000000
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.Suggested]
+"Enabled"=dword:00000000
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.BackupReminder]
+"Enabled"=dword:00000000
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.CapabilityAccess]
+"Enabled"=dword:00000000
+
+; Hide Defender summary & enhanced notifications
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\Reporting]
+"DisableEnhancedNotifications"=dword:00000001
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender Security Center\Notifications]
+"DisableEnhancedNotifications"=dword:00000001
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows Defender Security Center\Virus and threat protection]
+"SummaryNotificationDisabled"=dword:00000001
+
+; Set Defender to run as low priority task
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender]
+"AllowFastServiceStartup"=dword:00000000
+
+; Disable many diagnostic data settings
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Input\TIPC]
+"Enabled"=dword:00000000
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo]
+"Enabled"=dword:00000000
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Privacy]
+"TailoredExperiencesWithDiagnosticDataEnabled"=dword:00000000
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Policies\Microsoft\Windows\CloudContent]
+"DisableTailoredExperiencesWithDiagnosticData"=dword:00000001
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack]
+"ShowedToastAtLevel"=dword:00000001
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Siuf\Rules]
+"NumberOfSIUFInPeriod"=dword:00000000
+
+; Force disable Windows Recall (not typically available on x86 PCs)
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsAI]
+"DisableAIDataAnalysis"=dword:00000001
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Policies\Microsoft\Windows\WindowsAI]
+"DisableAIDataAnalysis"=dword:00000001
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; Microsoft Edge customizations
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Edge]
+"HideFirstRunExperience"=dword:00000001
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\MicrosoftEdge\Main]
+"PreventFirstRunPage"=dword:00000001
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\EdgeUpdate]
+"CreateDesktopShortcutDefault"=dword:00000000
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge]
+"HideFirstRunExperience"=dword:00000001
+"HubsSidebarEnabled"=dword:00000000
+"SpotlightExperiencesAndRecommendationsEnabled"=dword:00000000
+"ShowAcrobatSubscriptionButton"=dword:00000000
+"NewTabPageContentEnabled"=dword:00000000
+"NewTabPageHideDefaultTopSites"=dword:00000001
+"NewTabPageQuickLinksEnabled"=dword:00000000
+"ShowPDFDefaultRecommendationsEnabled"=dword:00000000
+"DefaultBrowserSettingsCampaignEnabled"=dword:00000000
+"ShowRecommendationsEnabled"=dword:00000000
+"PersonalizationReportingEnabled"=dword:00000000
+"TextPredictionEnabled"=dword:00000000
+"ComposeInlineEnabled"=dword:00000000
+"SearchInSidebarEnabled"=dword:00000002
+"UploadFromPhoneEnabled"=dword:00000000
+"UrlDiagnosticDataEnabled"=dword:00000000
+"DiagnosticData"=dword:00000000
+"TabServicesEnabled"=dword:00000000
+"ShowDownloadsToolbarButton"=dword:00000001
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge\Recommended]
+"StartupBoostEnabled"=dword:00000000
+"QuickSearchShowMiniMenu"=dword:00000000
+"VisualSearchEnabled"=dword:00000000
+"PinBrowserEssentialsToolbarButton"=dword:00000000
+"EdgeShoppingAssistantEnabled"=dword:00000000
+"WalletDonationEnabled"=dword:00000000
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; Office customizations
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Office\16.0\Word\Options]
+"DisableDarkMode"=dword:00000001
+"AllowAutoReadingMode"=dword:00000000
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Office\16.0\Common]
+"qmenable"=dword:00000000
+"TurnOffPhotograph"=dword:00000001
+"PrivacyNoticeShown"=dword:00000002
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Office\16.0\Common\General]
+"shownfirstrunoptin"=dword:00000001
+"ShownFileFmtPrompt"=dword:00000001
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Office\16.0\Common\PTWatson]
+"PTWOptIn"=dword:00000000
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Office\16.0\FirstRun]
+"BootedRTM"=dword:00000001
+"disablemovie"=dword:00000001
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Office\16.0\Registration]
+"AcceptAllEulas"=dword:00000001
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Office\16.0\Common\Privacy\SettingsStore\Anonymous]
+"ConnectedExperiencesNoticeVersion"=dword:00000001
+"RequiredDiagnosticDataNoticeVersion"=dword:00000001
+"OptionalDiagnosticDataConsentVersion"=dword:00000001
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Office\16.0\Outlook\Setup]
+"SetupOutlookMobileWebPageOpened"=dword:00000001
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Office\16.0\Outlook\Options\General]
+"DisableOutlookMobileHyperlink"=dword:00000001
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Policies\Microsoft\Office\16.0\Outlook\Options\General]
+"DisableOutlookMobileHyperlink"=dword:00000001
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Policies\Microsoft\Office\16.0\Outlook\Setup]
+"SetupOutlookMobileWebPageOpened"=dword:00000001
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; OneDrive refinement 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Remove 32-bit user-based OneDrive installer
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Run]
+"OneDriveSetup"=-
+
+; OneDrive for Business Team Site instant auto mount (QoL tweak for Enterprise/Education environments)
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\OneDrive\Accounts\Business1]
+"TimerAutoMount"=qword:00000001
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

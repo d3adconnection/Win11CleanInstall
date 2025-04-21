@@ -1,10 +1,9 @@
 # For a clean install that's Xbox and Store friendly, use this script with Windows 11 LTSC (IoT) Enterprise.
 # This will install the Store, along with Notepad, Calculator, Snipping Tool, Terminal, Xbox and Game Bar.
 
-Write-Output 'Checking for elevation...'
-If (-not ([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-5-32-544')) { 
-    Start-Process powershell -Args "-f `"$PSCommandPath`"" -v RunAs; Exit 
-}
+Write-Host "Checking for elevation..." -ForegroundColor Yellow; if (-not ([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-5-32-544')) {
+	Start-Process powershell -Args "-f `"$PSCommandPath`"" -v RunAs; exit }
+Clear; Set-Location $PSScriptRoot
 
 If (-not (Get-AppxPackage 'Microsoft.WindowsStore')) {
 	Write-Output 'Running WSReset...'
@@ -28,7 +27,8 @@ Write-Output 'Ensuring WinGet is updated...'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 
 Install-Module PowerShellGet -SkipPublisherCheck -Scope AllUsers -Force -Confirm:$False
 Install-PackageProvider NuGet -Scope AllUsers -Force -Confirm:$False
-Install-Module Microsoft.WinGet.Client -Scope AllUsers -Force -Confirm:$False -Repository PSGallery
+Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+Install-Module Microsoft.WinGet.Client -Scope AllUsers -Force -Repository PSGallery -Confirm:$False
 try { Import-Module Microsoft.WinGet.Client } catch { throw 'WinGet Failed.' }
 Repair-WinGetPackageManager -AllUsers -Force -Latest
 winget source update --disable-interactivity
