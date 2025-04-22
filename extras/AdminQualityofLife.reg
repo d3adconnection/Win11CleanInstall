@@ -53,7 +53,7 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System]
 "EnableSmartScreen"=dword:00000000
 "ShellSmartScreenLevel"=-
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer]
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Explorer]
 "SmartScreenEnabled"="Off"
 [HKEY_CURRENT_USER\Software\Microsoft\Edge\SmartScreenEnabled]
 @=dword:00000000
