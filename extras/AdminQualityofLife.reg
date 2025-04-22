@@ -18,9 +18,14 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell]
 "ExecutionPolicy"="Bypass"
 
-; Disable Virtualization-Based Security
+; Disable Virtualization-Based Security & Credential Guard
 [HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\DeviceGuard]
 "EnableVirtualizationBasedSecurity"=dword:00000000
+"RequirePlatformSecurityFeatures"=dword:00000000
+[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa]
+"LsaCfgFlags"=dword:00000000
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\DeviceGuard]
+"LsaCfgFlags"=dword:00000000
 
 ; SMB Enable insecure guest logons & disable SMB signing requirement
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters]
