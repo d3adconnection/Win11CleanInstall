@@ -177,9 +177,10 @@ Windows Registry Editor Version 5.00
 ; Disable auto-installing Store apps
 [HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Communications]
 "ConfigureChatAutoInstall"=dword:00000000
-
 [HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager]
 "SilentInstalledAppsEnabled"=dword:00000000
+[-HKEY_LOCAL_MACHINE\Software\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\DevHomeUpdate]
+[-HKEY_LOCAL_MACHINE\Software\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\OutlookUpdate]
 
 ; Disable account nags on Start & settings
 [HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
