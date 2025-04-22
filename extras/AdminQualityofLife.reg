@@ -28,16 +28,21 @@ Windows Registry Editor Version 5.00
 "LsaCfgFlags"=dword:00000000
 
 ; SMB Enable insecure guest logons & disable SMB signing requirement
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters]
+[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\LanmanWorkstation\Parameters]
 "AllowInsecureGuestAuth"=dword:00000001
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters]
 "RequireSecuritySignature"=dword:00000000
 
-; Disable "Open File Security Warning"
+; Disable "Open File Security Warning" & Security Zone Information for files
 [HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments]
-"SaveZoneInformation"=dword:00000001
+"SaveZoneInformation"=dword:00000002
+"DefaultFileTypeRisk"=dword:00001808
+"ScanWithAntiVirus"=dword:00000001
+"UseTrustedHandlers"=dword:00000001
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments]
-"SaveZoneInformation"=dword:00000001
+"SaveZoneInformation"=dword:00000002
+"DefaultFileTypeRisk"=dword:00001808
+"ScanWithAntiVirus"=dword:00000001
+"UseTrustedHandlers"=dword:00000001
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Associations]
 "LowRiskFileTypes"=".exe;.msi;.bat;.cmd;.vbs;.ps1;.py;.h;.c;.cs;.vb;.vcproj;.vcxproj;.htm;.html;.php;.cgi;.nfo;.txt;.ini;.inf;.reg;.cfg;.json;.config;.zip;.rar;.7z;.iso;.bmp;.jpg;.jpeg;.gif;.png;.webp;.heic;.mp2;.mp3;.mpg;.avi;.mpeg;.mov;.wmv;.mp4;.mkv;.m3u;.wav;.ogg;.flac"
 [HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Download]
@@ -45,7 +50,7 @@ Windows Registry Editor Version 5.00
 "RunInvalidSignatures"=dword:00000001
 
 ; Disable SmartScreen
-[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System]
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System]
 "EnableSmartScreen"=dword:00000000
 "ShellSmartScreenLevel"=-
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer]
@@ -57,3 +62,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\AppHost]
 "EnableWebContentEvaluation"=dword:00000000
 "PreventOverride"=dword:00000000
+
+; Set Defender to only monitor "incoming" files
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\Real-Time Protection]
+"RealtimeScanDirection"=dword:00000001
