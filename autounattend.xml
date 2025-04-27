@@ -37,7 +37,7 @@
 			<RunSynchronous>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>1</Order>
-					<Path>C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ex bypass -nol -noni -nop -w hidden -f C:\Windows\Setup\Scripts\specialize.ps1</Path>
+					<Path>powershell -ex bypass -nol -noni -nop -w hidden -f %WINDIR%\Setup\Scripts\specialize.ps1</Path>
 				</RunSynchronousCommand>
 			</RunSynchronous>
 		</component>
