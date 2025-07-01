@@ -23,43 +23,46 @@ powercfg -setactive $highPerfGuid
 ###########################################
  # # # APP CLEANUP # # # #################
 ###########################################
-# Comment out anything you do not want automatically removed.
+## Comment out anything you do not want automatically removed.
 $pkgs = (Get-AppxProvisionedPackage -Online)
-@(	"MicrosoftTeams",
-	"Clipchamp.Clipchamp",
-	"MicrosoftCorporationII.MicrosoftFamily",
+@(	"Clipchamp.Clipchamp",
 	"Microsoft.3DBuilder",
 	"Microsoft.549981C3F5F10",
 	"Microsoft.BingNews",
+	"Microsoft.BingSearch",
 	"Microsoft.BingWeather",
+	"Microsoft.Copilot",
 	"Microsoft.GamingApp",
-	"Microsoft.Gethelp",
-	"Microsoft.Getstarted",
+	"Microsoft.GetHelp",
+	"Microsoft.GetStarted",
 	"Microsoft.Messaging",
-	"Microsoft.WindowsFeedbackHub",
-	"Microsoft.WindowsMaps",
-	"Microsoft.People",
-	"Microsoft.XboxApp",
+	"Microsoft.Microsoft3DViewer",
 	"Microsoft.MicrosoftOfficeHub",
 	"Microsoft.MicrosoftSolitaireCollection",
-	"Microsoft.PowerAutomateDesktop",
-	"Microsoft.Office.OneNote",
- 	"Microsoft.OutlookForWindows",
-	"Microsoft.OneConnect",
-	"Microsoft.SkypeApp",
-	"Microsoft.Microsoft3DViewer",
-	"Microsoft.Paint3D",
-	# "Microsoft.Windows.Photos",
-	"Microsoft.MSPaint",
-	"Microsoft.Wallet",
-	"Microsoft.Print3D",
 	"Microsoft.MixedReality.Portal",
+	"Microsoft.MSPaint",
+	"Microsoft.Office.OneNote",
+	"Microsoft.OneConnect",
+ 	"Microsoft.OutlookForWindows",
+	"Microsoft.Paint3D",
+	"Microsoft.People",
+	# "Microsoft.Windows.Photos",
+	"Microsoft.PowerAutomateDesktop",
+	"Microsoft.Print3D",
+	"Microsoft.SkypeApp",
 	"Microsoft.Todos",
-	"microsoft.windowscommunicationsapps",
+	"Microsoft.Wallet",
+	# "Microsoft.WindowsCamera",
+	"Microsoft.WindowsCommunicationsApps",
+	"Microsoft.WindowsFeedbackHub",
 	"Microsoft.WindowsMaps",
+	"Microsoft.XboxApp",
 	"Microsoft.YourPhone",
 	"Microsoft.ZuneMusic",
-	"Microsoft.ZuneVideo"
+	"Microsoft.ZuneVideo",
+	"MicrosoftCorporationII.MicrosoftFamily",
+	"MicrosoftTeams",
+	"MSTeams"
 ) | % {
 	$pkg = ((Get-AppxPackage $_).PackageFullName); if ($pkg) { try { Remove-AppxPackage -Package $pkg -AllUsers; Start-Sleep -s 2 } catch { } }
 	$pkg = (($pkgs | ? {$_.Displayname -eq $App}).PackageName); if ($pkg) { try { Remove-AppxProvisionedPackage -PackageName $pkg -AllUsers -Online; Start-Sleep -s 2 } catch { } }
@@ -92,22 +95,22 @@ $RegFile = (Join-Path $PSScriptRoot "specialize.reg"); if (Test-Path $RegFile) {
 
 
 ###########################################
- # # # FINAL RUN # # # ###################
+ # # # FILE SYSTEM OPTIMIZATION # # # ####
 ###########################################
-# NTFS optimization (fsutil tweaks from https://github.com/r33int/Windows10-Postinstall)
+## NTFS optimization (fsutil tweaks from https://github.com/r33int/Windows10-Postinstall)
 Get-Volume | ? { $_.FileSystemType -eq 'NTFS' -and $_.DriveLetter } | % { $d = "$($_.DriveLetter):";
 	@(	"resource setavailable $d","resource setlog shrink 10 $d",
 		"8dot3name strip /f /l nul /s $d","behavior set disable8dot3 $d 1" ) | % { iex "fsutil $_" }
 }
 @(	"behavior set memoryusage 2","behavior set disablelastaccess 1","behavior set mftzone 2",
 	"behavior set disable8dot3 1","8dot3name set 1" ) | % { iex "fsutil $_" }
-###########################################
 
-
-###########################################
-# Optimize all volumes
+## Optimize all volumes
 defrag /allvolumes /o
+###########################################
 
+
+###########################################
 ## Switch back to the Balanced power plan
 $balancedGuid = powercfg -list | Select-String -Pattern "\((Balanced)\)" | % { $_.Line.Split()[3].Trim('(', ')') }
 powercfg -setactive $balancedGuid; powercfg -delete $highPerfGuid
