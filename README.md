@@ -5,7 +5,7 @@
 Automatically bypasses hardware checks, optimizes the NTFS file system on your drives, removes the majority of the bloat, and adjusts a few QoL registry tweaks/policies.
 The install process is streamlined to get you into a local user account as soon as possible. No Microsoft account needed.
 
-Recommended to use with Windows 11 Pro or Enterprise (IoT) edition. Home edition is untested, but should still work effectively.
+Recommended to use with Windows 11 Pro or Enterprise (IoT/LTSC) edition. Home edition is untested, but should still work effectively.
 (Group Policy tweaks do not work on Home edition.)
 
 These scripts are designed to be as vanilla as possible, with no visibility or interaction, and very compatible with updates.
