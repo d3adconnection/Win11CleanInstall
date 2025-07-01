@@ -21,10 +21,7 @@ powercfg -setactive $highPerfGuid
 ###########################################
  # # # IMPORT WI-FI PROFILES # # # #######
 ###########################################
-
-###########################################
-# Import any Wi-Fi*.xml files in the Scripts folder
-###########################################
+## Import any Wi-Fi*.xml files in the Scripts folder
 Get-ChildItem -Path "$PSScriptRoot\Wi-Fi*.xml" -File | % {Start-Sleep -s 5; netsh wlan add profile filename="$_" user=all; Start-Sleep -s 5 }
 ###########################################
 
@@ -32,17 +29,10 @@ Get-ChildItem -Path "$PSScriptRoot\Wi-Fi*.xml" -File | % {Start-Sleep -s 5; nets
 ###########################################
  # # # APP INSTALLS # # # ################
 ###########################################
+## This is a good spot to add any apps you want to install
 
-###########################################
-# This is a good spot to add any apps you want to install
-###########################################
-
-
-###########################################
 ## Install OneDrive 64-bit for all users
-###########################################
-## Uncomment this to have OneDrive installed for all users.
-
+## Uncomment the below line to have OneDrive installed for all users.
 # Start-Process "$Env:SystemRoot\System32\OneDriveSetup.exe" -ArgumentList "/allusers" -NoNewWindow -Wait
 ###########################################
 
@@ -50,7 +40,7 @@ Get-ChildItem -Path "$PSScriptRoot\Wi-Fi*.xml" -File | % {Start-Sleep -s 5; nets
 ###########################################
  # # # REGISTRY & POLICY TWEAKS # # # ####
 ###########################################
-# Import setupcomplete.reg (if exists)
+## Import setupcomplete.reg (if exists)
 $RegFile = (Join-Path $PSScriptRoot "setupcomplete.reg"); if (Test-Path $RegFile) {
 	$DefaultUserHive = (Join-Path $Env:SystemDrive "Users\Default\NTUSER.DAT")
 	@("load HKLM\UserRegistry $DefaultUserHive","import $RegFile","unload HKLM\UserRegistry") | % { iex "reg $_" }
@@ -61,24 +51,23 @@ $RegFile = (Join-Path $PSScriptRoot "setupcomplete.reg"); if (Test-Path $RegFile
 ###########################################
  # # # FINAL CLEANUP # # # ###############
 ###########################################
-# Use this to specify any other files/folders to delete on install.
-
+## Use this to specify any other files/folders to delete on install.
 $FinalCleanup = @(
 	# "C:\Temp",
 	"C:\Windows.old"
 )
 
-# Everything in the Scripts folder is automatically purged.
+## Everything in the Scripts folder is automatically purged.
 $FinalCleanup += Get-ChildItem $PSScriptRoot -File | ? { $_.Name -notin "setupcomplete.ps1", "setupcomplete.cmd" } | Select -ep FullName
 $FinalCleanup += Get-ChildItem $PSScriptRoot -Directory -Recurse | Select -ep FullName
 
-# Removes everything in one shot
+## Removes everything in one shot
 $FinalCleanup | % { if (Test-Path $_) { Remove-Item $_ -Recurse -Force -ErrorAction SilentlyContinue } }
 ###########################################
 
 
 ###########################################
-# Make any initial network connections set as Private
+## Make any initial network connections set as Private
 Get-NetConnectionProfile | Set-NetConnectionProfile -NetworkCategory Private
 
 ## Switch back to the Balanced power plan
