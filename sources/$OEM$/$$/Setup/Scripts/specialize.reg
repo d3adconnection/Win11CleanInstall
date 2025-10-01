@@ -286,6 +286,7 @@ Windows Registry Editor Version 5.00
 "PreventFirstRunPage"=dword:00000001
 [HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\EdgeUpdate]
 "CreateDesktopShortcutDefault"=dword:00000000
+"RemoveDesktopShortcutDefault"=dword:00000002
 [HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge]
 "HideFirstRunExperience"=dword:00000001
 "HubsSidebarEnabled"=dword:00000000
