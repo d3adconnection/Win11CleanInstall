@@ -307,6 +307,7 @@ Windows Registry Editor Version 5.00
 "DiagnosticData"=dword:00000000
 "TabServicesEnabled"=dword:00000000
 "ShowDownloadsToolbarButton"=dword:00000001
+"Microsoft365CopilotChatIconEnabled"=dword:00000000
 [HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge\Recommended]
 "StartupBoostEnabled"=dword:00000000
 "QuickSearchShowMiniMenu"=dword:00000000
