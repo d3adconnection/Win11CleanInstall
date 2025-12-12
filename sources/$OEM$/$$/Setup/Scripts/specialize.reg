@@ -68,6 +68,10 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
 "ShowCopilotButton"=dword:00000000
 
+; Remove sharing from taskbar preview
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"TaskbarSn"=dword:00000000
+
 ; Remove weather/news from taskbar
 [HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Feeds]
 "ShellFeedsTaskbarViewMode"=dword:00000002
