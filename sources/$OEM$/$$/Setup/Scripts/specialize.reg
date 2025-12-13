@@ -282,6 +282,10 @@ Windows Registry Editor Version 5.00
 "DisableAIDataAnalysis"=dword:00000001
 [HKEY_LOCAL_MACHINE\UserRegistry\Software\Policies\Microsoft\Windows\WindowsAI]
 "DisableAIDataAnalysis"=dword:00000001
+
+; Disable AI features in Notepad
+[HKEY_LOCAL_MACHINE\Software\Policies\WindowsNotepad]
+"DisableAIFeatures"=dword:00000001
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
