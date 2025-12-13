@@ -53,6 +53,7 @@ $pkgs = (Get-AppxProvisionedPackage -Online)
 	"Microsoft.Todos",
 	"Microsoft.Wallet",
 	# "Microsoft.WindowsCamera",
+	"Microsoft.Windows.Copilot",
 	"Microsoft.WindowsCommunicationsApps",
 	"Microsoft.WindowsFeedbackHub",
 	"Microsoft.WindowsMaps",
