@@ -76,6 +76,10 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Feeds]
 "ShellFeedsTaskbarViewMode"=dword:00000002
 
+; Remove Bluetooth from system tray (still available in Action Center)
+[HKEY_LOCAL_MACHINE\UserRegistry\Control Panel\Bluetooth]
+"Notification Area Icon"=dword:00000000
+
 ; Remove & disable widgets
 [HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
 "TaskbarDa"=dword:00000000
