@@ -182,6 +182,10 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\UserRegistry\Control Panel\Desktop]
 "HungAppTimeout"="1000"
 
+; Ensure StartMenuExperienceHost is always loaded on startup
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\StartMenu]
+"PrelaunchOverride"=dword:00000001
+
 ; Disable auto-installing Store apps
 [HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Communications]
 "ConfigureChatAutoInstall"=dword:00000000
