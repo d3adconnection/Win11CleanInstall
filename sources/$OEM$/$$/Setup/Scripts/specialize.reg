@@ -235,7 +235,7 @@ Windows Registry Editor Version 5.00
 "RotatingLockScreenOverlayEnabled"=dword:00000000
 "SubscribedContent-338387Enabled"=dword:00000000
 
-; Disable System requirements not met message in Settings (deprecated?)
+; Disable System requirements not met message in Settings
 [HKEY_LOCAL_MACHINE\UserRegistry\Control Panel\UnsupportedHardwareNotificationCache]
 "SV1"=dword:00000000
 "SV2"=dword:00000000
@@ -310,39 +310,87 @@ Windows Registry Editor Version 5.00
 ;; Microsoft Edge customizations
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+; Disable first run prompts
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge]
+"HideFirstRunExperience"=dword:00000001
 [HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Edge]
 "HideFirstRunExperience"=dword:00000001
 [HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\MicrosoftEdge\Main]
 "PreventFirstRunPage"=dword:00000001
-[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\EdgeUpdate]
-"CreateDesktopShortcutDefault"=dword:00000000
-"RemoveDesktopShortcutDefault"=dword:00000002
+
+; Disable prompts for setting Edge as default app
 [HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge]
-"HideFirstRunExperience"=dword:00000001
-"HubsSidebarEnabled"=dword:00000000
-"SpotlightExperiencesAndRecommendationsEnabled"=dword:00000000
-"ShowAcrobatSubscriptionButton"=dword:00000000
-"NewTabPageContentEnabled"=dword:00000000
-"NewTabPageHideDefaultTopSites"=dword:00000001
-"NewTabPageQuickLinksEnabled"=dword:00000000
 "ShowPDFDefaultRecommendationsEnabled"=dword:00000000
 "DefaultBrowserSettingsCampaignEnabled"=dword:00000000
 "ShowRecommendationsEnabled"=dword:00000000
-"PersonalizationReportingEnabled"=dword:00000000
-"TextPredictionEnabled"=dword:00000000
-"ComposeInlineEnabled"=dword:00000000
+
+; Disable desktop shortcuts
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\EdgeUpdate]
+"CreateDesktopShortcutDefault"=dword:00000000
+"RemoveDesktopShortcutDefault"=dword:00000002
+
+; Disable Spotlight & new tab content
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge]
+"NewTabPageContentEnabled"=dword:00000000
+"NewTabPageHideDefaultTopSites"=dword:00000001
+"NewTabPageQuickLinksEnabled"=dword:00000000
+"SpotlightExperiencesAndRecommendationsEnabled"=dword:00000000
+
+; Disable sidebar
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge]
+"HubsSidebarEnabled"=dword:00000000
 "SearchInSidebarEnabled"=dword:00000002
-"UploadFromPhoneEnabled"=dword:00000000
-"UrlDiagnosticDataEnabled"=dword:00000000
-"DiagnosticData"=dword:00000000
-"TabServicesEnabled"=dword:00000000
+
+; Force Downloads button on toolbar
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge]
 "ShowDownloadsToolbarButton"=dword:00000001
+
+; Disable Acrobat promotion
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge]
+"ShowAcrobatSubscriptionButton"=dword:00000000
+
+; Disable Upload from phone
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge]
+"UploadFromPhoneEnabled"=dword:00000000
+
+; Disable text prediction
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge]
+"TextPredictionEnabled"=dword:00000000
+
+; Disable Copilot features
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge]
 "Microsoft365CopilotChatIconEnabled"=dword:00000000
+"ComposeInlineEnabled"=dword:00000000
+
+; Disable local AI models
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge]
+"GenAILocalFoundationalModelSettings"=dword:00000001
+
+; Disable diagnostic data
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge]
+"DiagnosticData"=dword:00000000
+"UrlDiagnosticDataEnabled"=dword:00000000
+"PersonalizationReportingEnabled"=dword:00000000
+"TabServicesEnabled"=dword:00000000
+
+; Disable startup boost
 [HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge\Recommended]
 "StartupBoostEnabled"=dword:00000000
+
+; Disable mini menu
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge\Recommended]
 "QuickSearchShowMiniMenu"=dword:00000000
+
+; Disable visual search
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge\Recommended]
 "VisualSearchEnabled"=dword:00000000
+
+; Hide browser essentials toolbar button
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge\Recommended]
 "PinBrowserEssentialsToolbarButton"=dword:00000000
+
+; Disable shopping features
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge\Recommended]
 "EdgeShoppingAssistantEnabled"=dword:00000000
 "WalletDonationEnabled"=dword:00000000
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -351,9 +399,7 @@ Windows Registry Editor Version 5.00
 ;; Office customizations
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Office\16.0\Word\Options]
-"DisableDarkMode"=dword:00000001
-"AllowAutoReadingMode"=dword:00000000
+; Disable first run prompts
 [HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Office\16.0\Common]
 "qmenable"=dword:00000000
 "TurnOffPhotograph"=dword:00000001
@@ -372,6 +418,16 @@ Windows Registry Editor Version 5.00
 "ConnectedExperiencesNoticeVersion"=dword:00000001
 "RequiredDiagnosticDataNoticeVersion"=dword:00000001
 "OptionalDiagnosticDataConsentVersion"=dword:00000001
+
+; Disable Word document dark mode
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Office\16.0\Word\Options]
+"DisableDarkMode"=dword:00000001
+
+; Disable Word reading view
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Office\16.0\Word\Options]
+"AllowAutoReadingMode"=dword:00000000
+
+; Disable Outlook Mobile promotion
 [HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Office\16.0\Outlook\Setup]
 "SetupOutlookMobileWebPageOpened"=dword:00000001
 [HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Office\16.0\Outlook\Options\General]
