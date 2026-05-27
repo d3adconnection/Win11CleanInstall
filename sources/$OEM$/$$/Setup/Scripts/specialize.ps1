@@ -64,9 +64,9 @@ $pkgs = (Get-AppxProvisionedPackage -Online)
 	"MicrosoftCorporationII.MicrosoftFamily",
 	"MicrosoftTeams",
 	"MSTeams"
-) | % {
-	$pkg = ((Get-AppxPackage $_).PackageFullName); if ($pkg) { try { Remove-AppxPackage -Package $pkg -AllUsers; Start-Sleep -s 2 } catch { } }
-	$pkg = (($pkgs | ? {$_.Displayname -eq $App}).PackageName); if ($pkg) { try { Remove-AppxProvisionedPackage -PackageName $pkg -AllUsers -Online; Start-Sleep -s 2 } catch { } }
+) | % { param($app)
+	$pkg = ((Get-AppxPackage $app).PackageFullName); if ($pkg) { try { Remove-AppxPackage -Package $pkg -AllUsers; Start-Sleep -s 2 } catch { } }
+	$pkg = (($pkgs | ? {$_.Displayname -eq $app}).PackageName); if ($pkg) { try { Remove-AppxProvisionedPackage -PackageName $pkg -AllUsers -Online; Start-Sleep -s 2 } catch { } }
 }
 ###########################################
 
