@@ -35,6 +35,10 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
 "Start_Layout"=dword:00000001
 
+; Use List view of Apps on Start
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Windows\CurrentVersion\Start]
+"AllAppsViewMode"=dword:00000002
+
 ; Hide Recommended on Start (only works on Education and Enterprise)
 [HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Explorer]
 "HideRecommendedSection"=dword:00000001
