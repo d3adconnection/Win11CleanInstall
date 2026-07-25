@@ -293,6 +293,10 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Siuf\Rules]
 "NumberOfSIUFInPeriod"=dword:00000000
 
+; Disable initial RDP warning dialog
+[HKEY_LOCAL_MACHINE\UserRegistry\Software\Microsoft\Terminal Server Client]
+"RdpLaunchConsentAccepted"=dword:00000001
+
 ; Force disable Windows Recall (not typically available on x86 PCs)
 [HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsAI]
 "DisableAIDataAnalysis"=dword:00000001
