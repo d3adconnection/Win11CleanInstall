@@ -365,6 +365,10 @@ Windows Registry Editor Version 5.00
 [HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge]
 "UploadFromPhoneEnabled"=dword:00000000
 
+; Disable clipboard suggestions in the address bar
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge]
+"AddressBarClipboardSuggestEnabled"=dword:00000000
+
 ; Disable text prediction
 [HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Edge]
 "TextPredictionEnabled"=dword:00000000
